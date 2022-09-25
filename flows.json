@@ -1,0 +1,1617 @@
+[
+    {
+        "id": "86f06ab063db9ad1",
+        "type": "tab",
+        "label": "Flujo completo",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "6b9eda19d7fd75cd",
+        "type": "tab",
+        "label": "Flujo creacion de base de datos",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "c88f4e9f19d39aa7",
+        "type": "sqlitedb",
+        "db": "/home/xantx/universidad/hydro-proyect/hydro-db.db",
+        "mode": "RWC"
+    },
+    {
+        "id": "0d664f1cc8511a50",
+        "type": "mqtt-broker",
+        "name": "Servidor de sensor 1",
+        "broker": "127.0.0.1",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "077bd6710b91c044",
+        "type": "websocket-listener",
+        "path": "/ws/test",
+        "wholemsg": "true"
+    },
+    {
+        "id": "9c1511b1010c20bc",
+        "type": "inject",
+        "z": "86f06ab063db9ad1",
+        "name": "humedad input",
+        "props": [
+            {
+                "p": "humedad",
+                "v": "55",
+                "vt": "num"
+            },
+            {
+                "p": "sensor",
+                "v": "humedad",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 300,
+        "y": 1600,
+        "wires": [
+            [
+                "2848e88340f13d83"
+            ]
+        ]
+    },
+    {
+        "id": "ddfe8204503c1963",
+        "type": "debug",
+        "z": "86f06ab063db9ad1",
+        "name": "Salida",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2430,
+        "y": 900,
+        "wires": []
+    },
+    {
+        "id": "79bf636695e5f0df",
+        "type": "sqlite",
+        "z": "86f06ab063db9ad1",
+        "mydb": "c88f4e9f19d39aa7",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "hydro-db",
+        "x": 2160,
+        "y": 820,
+        "wires": [
+            [
+                "ddfe8204503c1963"
+            ]
+        ]
+    },
+    {
+        "id": "ad8a953be108205d",
+        "type": "mqtt in",
+        "z": "86f06ab063db9ad1",
+        "name": "",
+        "topic": "sensor/humedad",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "0d664f1cc8511a50",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 160,
+        "y": 140,
+        "wires": [
+            [
+                "3839f0a88d75305b"
+            ]
+        ]
+    },
+    {
+        "id": "437d01cb27474ac9",
+        "type": "mqtt out",
+        "z": "86f06ab063db9ad1",
+        "name": "",
+        "topic": "sensor/humedad",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "0d664f1cc8511a50",
+        "x": 530,
+        "y": 1680,
+        "wires": []
+    },
+    {
+        "id": "457c5b617cc5af92",
+        "type": "websocket out",
+        "z": "86f06ab063db9ad1",
+        "name": "Salida websockets",
+        "server": "077bd6710b91c044",
+        "client": "",
+        "x": 1790,
+        "y": 1160,
+        "wires": []
+    },
+    {
+        "id": "9052c54a68b726ab",
+        "type": "debug",
+        "z": "86f06ab063db9ad1",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1420,
+        "y": 1500,
+        "wires": []
+    },
+    {
+        "id": "ca8d90f0bcef7265",
+        "type": "websocket in",
+        "z": "86f06ab063db9ad1",
+        "name": "In",
+        "server": "077bd6710b91c044",
+        "client": "",
+        "x": 1230,
+        "y": 1520,
+        "wires": [
+            [
+                "9052c54a68b726ab",
+                "e29e3c624e75c2b6"
+            ]
+        ]
+    },
+    {
+        "id": "e29e3c624e75c2b6",
+        "type": "websocket out",
+        "z": "86f06ab063db9ad1",
+        "name": "Salida de entrada",
+        "server": "077bd6710b91c044",
+        "client": "",
+        "x": 1450,
+        "y": 1580,
+        "wires": []
+    },
+    {
+        "id": "8f3c6d6746c9d777",
+        "type": "mqtt in",
+        "z": "86f06ab063db9ad1",
+        "name": "",
+        "topic": "sensor/ph",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "0d664f1cc8511a50",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 140,
+        "y": 220,
+        "wires": [
+            [
+                "37db25b4d24c3d69"
+            ]
+        ]
+    },
+    {
+        "id": "2848e88340f13d83",
+        "type": "function",
+        "z": "86f06ab063db9ad1",
+        "name": "Armar Payload Humedad",
+        "func": "var { humedad, sensor } = msg\nmsg.payload = {\n    humedad,\n    sensor\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 410,
+        "y": 1640,
+        "wires": [
+            [
+                "437d01cb27474ac9"
+            ]
+        ]
+    },
+    {
+        "id": "327059261eb5de61",
+        "type": "mqtt in",
+        "z": "86f06ab063db9ad1",
+        "name": "",
+        "topic": "sensor/temperatura/aire",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "0d664f1cc8511a50",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 180,
+        "y": 300,
+        "wires": [
+            [
+                "1012b71c11af4906"
+            ]
+        ]
+    },
+    {
+        "id": "ae42c56a03284304",
+        "type": "mqtt in",
+        "z": "86f06ab063db9ad1",
+        "name": "",
+        "topic": "sensor/temperatura/agua",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "0d664f1cc8511a50",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 190,
+        "y": 380,
+        "wires": [
+            [
+                "3f25b60bcef189a2"
+            ]
+        ]
+    },
+    {
+        "id": "64b18f99335694ce",
+        "type": "inject",
+        "z": "86f06ab063db9ad1",
+        "name": "temperatura aire input",
+        "props": [
+            {
+                "p": "temperatura_aire",
+                "v": "17",
+                "vt": "num"
+            },
+            {
+                "p": "sensor",
+                "v": "temp_aire",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 320,
+        "y": 1940,
+        "wires": [
+            [
+                "56558bc2f1074d26"
+            ]
+        ]
+    },
+    {
+        "id": "be743ab71690fac8",
+        "type": "mqtt out",
+        "z": "86f06ab063db9ad1",
+        "name": "",
+        "topic": "sensor/temperatura/aire",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "0d664f1cc8511a50",
+        "x": 550,
+        "y": 2020,
+        "wires": []
+    },
+    {
+        "id": "56558bc2f1074d26",
+        "type": "function",
+        "z": "86f06ab063db9ad1",
+        "name": "Armar Payload temp aire",
+        "func": "var { temperatura_aire, sensor } = msg\nmsg.payload = {\n    temperatura_aire,\n    sensor\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 410,
+        "y": 1980,
+        "wires": [
+            [
+                "be743ab71690fac8"
+            ]
+        ]
+    },
+    {
+        "id": "9bd7d0bef6a8dab5",
+        "type": "inject",
+        "z": "86f06ab063db9ad1",
+        "name": "temperatura agua input",
+        "props": [
+            {
+                "p": "temperatura_agua",
+                "v": "18",
+                "vt": "num"
+            },
+            {
+                "p": "sensor",
+                "v": "temp_agua",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 320,
+        "y": 2080,
+        "wires": [
+            [
+                "204bbcb82cd077f4"
+            ]
+        ]
+    },
+    {
+        "id": "97d6b201cc963158",
+        "type": "mqtt out",
+        "z": "86f06ab063db9ad1",
+        "name": "",
+        "topic": "sensor/temperatura/agua",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "0d664f1cc8511a50",
+        "x": 550,
+        "y": 2160,
+        "wires": []
+    },
+    {
+        "id": "204bbcb82cd077f4",
+        "type": "function",
+        "z": "86f06ab063db9ad1",
+        "name": "Armar Payload temp agua",
+        "func": "var { temperatura_agua, sensor } = msg\nmsg.payload = {\n    temperatura_agua,\n    sensor\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 410,
+        "y": 2120,
+        "wires": [
+            [
+                "97d6b201cc963158"
+            ]
+        ]
+    },
+    {
+        "id": "69f526bf0a216988",
+        "type": "function",
+        "z": "86f06ab063db9ad1",
+        "name": "Valida ph",
+        "func": "var { ph, sensor } = msg.payload\nvar {min_value, max_value } = msg.params\nif (ph < min_value || ph > max_value){\n    msg.accion = \"Modificar\"\n}else{\n    msg.accion = \"No accion\"\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1040,
+        "y": 220,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "7da38bca68aa858b",
+        "type": "function",
+        "z": "86f06ab063db9ad1",
+        "name": "Validar Temperatura aire",
+        "func": "var { temperatura_aire, sensor } = msg.payload\nvar { min_value, max_value } = msg.params\nif (temperatura_aire < min_value || temperatura_aire > max_value){\n    msg.accion = \"Modificar\"\n}else{\n    msg.accion = \"No accion\"\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1090,
+        "y": 300,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "6651a6d2965fe8ad",
+        "type": "function",
+        "z": "86f06ab063db9ad1",
+        "name": "Validar Temperatura agua",
+        "func": "var { temperatura_agua, sensor } = msg.payload\nvar { min_value, max_value } = msg.params\nif (temperatura_agua < min_value || temperatura_agua > max_value){\n    msg.accion = \"Modificar\"\n}else{\n    msg.accion = \"No accion\"\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1090,
+        "y": 380,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "1343712aa04c5764",
+        "type": "function",
+        "z": "86f06ab063db9ad1",
+        "name": "Valida humedad",
+        "func": "var { humedad, sensor } = msg.payload\nvar { min_value, max_value } = msg.params\nif (humedad < min_value || humedad > max_value){\n    msg.accion = \"Modificar\"\n}else{\n    msg.accion = \"No accion\"\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1060,
+        "y": 140,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "0d98da15a483d6d6",
+        "type": "switch",
+        "z": "86f06ab063db9ad1",
+        "name": "Condicion Humedad",
+        "property": "accion",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "Modificar",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "No accion",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 1260,
+        "y": 680,
+        "wires": [
+            [
+                "bd02ede6b831c79d"
+            ],
+            [
+                "7cc110305198ae49"
+            ]
+        ]
+    },
+    {
+        "id": "740847a5e84ed083",
+        "type": "switch",
+        "z": "86f06ab063db9ad1",
+        "name": "Condicion ph",
+        "property": "accion",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "Modificar",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "No accion",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 1210,
+        "y": 820,
+        "wires": [
+            [],
+            [
+                "bc1ffdffed3ee340"
+            ]
+        ]
+    },
+    {
+        "id": "27c004431a396698",
+        "type": "switch",
+        "z": "86f06ab063db9ad1",
+        "name": "Condicion temp aire",
+        "property": "accion",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "Modificar",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "No accion",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 1220,
+        "y": 940,
+        "wires": [
+            [],
+            [
+                "964bfb7cfbbea6ba"
+            ]
+        ]
+    },
+    {
+        "id": "de55978483076df7",
+        "type": "switch",
+        "z": "86f06ab063db9ad1",
+        "name": "Condicion temp agua",
+        "property": "accion",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "Modificar",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "No accion",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 1220,
+        "y": 1020,
+        "wires": [
+            [],
+            [
+                "2a8476252a1f6d74"
+            ]
+        ]
+    },
+    {
+        "id": "7cc110305198ae49",
+        "type": "function",
+        "z": "86f06ab063db9ad1",
+        "name": "Create Insert Humedad",
+        "func": "var { humedad, sensor } = msg.payload\n\nmsg.topic = `INSERT INTO sensor_humedad (humedad, sensor) values (${humedad}, '${sensor}')`\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1810,
+        "y": 700,
+        "wires": [
+            [
+                "79bf636695e5f0df"
+            ]
+        ]
+    },
+    {
+        "id": "bc1ffdffed3ee340",
+        "type": "function",
+        "z": "86f06ab063db9ad1",
+        "name": "Create Insert ph",
+        "func": "var { ph, sensor } = msg.payload\nmsg.topic = `INSERT INTO sensor_ph (ph, sensor) values (${ph}, '${sensor}')`\nreturn msg; ",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1780,
+        "y": 840,
+        "wires": [
+            [
+                "79bf636695e5f0df"
+            ]
+        ]
+    },
+    {
+        "id": "964bfb7cfbbea6ba",
+        "type": "function",
+        "z": "86f06ab063db9ad1",
+        "name": "Create Insert temp aire",
+        "func": "var { temperatura_aire, sensor } = msg.payload\n\nmsg.topic = `INSERT INTO sensor_temp_aire (temperatura_aire, sensor) values (${temperatura_aire}, '${sensor}')`\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1800,
+        "y": 960,
+        "wires": [
+            [
+                "79bf636695e5f0df"
+            ]
+        ]
+    },
+    {
+        "id": "2a8476252a1f6d74",
+        "type": "function",
+        "z": "86f06ab063db9ad1",
+        "name": "Create Insert temp agua",
+        "func": "var { temperatura_agua, sensor } = msg.payload\nmsg.topic = `INSERT INTO sensor_temp_agua (temperatura_agua, sensor) values (${temperatura_agua}, '${sensor}')`\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1810,
+        "y": 1040,
+        "wires": [
+            [
+                "79bf636695e5f0df"
+            ]
+        ]
+    },
+    {
+        "id": "74c61c5fc1cefb24",
+        "type": "mqtt out",
+        "z": "86f06ab063db9ad1",
+        "name": "",
+        "topic": "sensor/ph",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "0d664f1cc8511a50",
+        "x": 440,
+        "y": 1840,
+        "wires": []
+    },
+    {
+        "id": "8aa7fa1ea32bdada",
+        "type": "function",
+        "z": "86f06ab063db9ad1",
+        "name": "Armar Payload ph",
+        "func": "var {ph , sensor } = msg\nmsg.payload = \n{\n    ph,\n    sensor\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 370,
+        "y": 1800,
+        "wires": [
+            [
+                "74c61c5fc1cefb24"
+            ]
+        ]
+    },
+    {
+        "id": "175e15c6fcb7b8f6",
+        "type": "inject",
+        "z": "86f06ab063db9ad1",
+        "name": "Ph input",
+        "props": [
+            {
+                "p": "ph",
+                "v": "5.5",
+                "vt": "num"
+            },
+            {
+                "p": "sensor",
+                "v": "ph",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "1",
+        "topic": "",
+        "x": 260,
+        "y": 1760,
+        "wires": [
+            [
+                "8aa7fa1ea32bdada"
+            ]
+        ]
+    },
+    {
+        "id": "2483cc671a6296aa",
+        "type": "inject",
+        "z": "86f06ab063db9ad1",
+        "name": "Reiniciar tablas",
+        "props": [],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 2060,
+        "y": 560,
+        "wires": [
+            [
+                "f6f764d9ea1e08c8"
+            ]
+        ]
+    },
+    {
+        "id": "f6f764d9ea1e08c8",
+        "type": "function",
+        "z": "86f06ab063db9ad1",
+        "name": "Querys de borrado de tablas",
+        "func": "msg.payload = \"DELETE FROM sensor_humedad;DELETE FROM sensor_ph;DELETE FROM sensor_temp_aire;DELETE FROM sensor_temp_agua;\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 2320,
+        "y": 580,
+        "wires": [
+            [
+                "cb4b4064fc81f9ce"
+            ]
+        ]
+    },
+    {
+        "id": "cb4b4064fc81f9ce",
+        "type": "split",
+        "z": "86f06ab063db9ad1",
+        "name": "",
+        "splt": ";",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": true,
+        "addname": "",
+        "x": 2550,
+        "y": 600,
+        "wires": [
+            [
+                "9a16b93e680e9bfd"
+            ]
+        ]
+    },
+    {
+        "id": "9a16b93e680e9bfd",
+        "type": "change",
+        "z": "86f06ab063db9ad1",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 2710,
+        "y": 600,
+        "wires": [
+            [
+                "79bf636695e5f0df"
+            ]
+        ]
+    },
+    {
+        "id": "c991cfaeec459d9e",
+        "type": "change",
+        "z": "86f06ab063db9ad1",
+        "name": "Preparar para websocket",
+        "rules": [
+            {
+                "t": "delete",
+                "p": "topic",
+                "pt": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "qos",
+                "pt": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "retain",
+                "pt": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "_topic",
+                "pt": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "accion",
+                "pt": "msg"
+            },
+            {
+                "t": "set",
+                "p": "data",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "payload",
+                "pt": "msg"
+            },
+            {
+                "t": "set",
+                "p": "time",
+                "pt": "msg",
+                "to": "",
+                "tot": "date"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1490,
+        "y": 1160,
+        "wires": [
+            [
+                "457c5b617cc5af92"
+            ]
+        ]
+    },
+    {
+        "id": "ac263b802272b979",
+        "type": "sqlite",
+        "z": "86f06ab063db9ad1",
+        "mydb": "c88f4e9f19d39aa7",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "hydro-db",
+        "x": 2200,
+        "y": 1740,
+        "wires": [
+            [
+                "fa5fe660ab42e0e2"
+            ]
+        ]
+    },
+    {
+        "id": "2f391342f96a19ed",
+        "type": "function",
+        "z": "86f06ab063db9ad1",
+        "name": "Query select all",
+        "func": "var fecha = msg.req.query.date\nvar sensor = msg.req.query.sensor\n\nswitch (sensor) {\n    case \"humedad\":\n        msg.response = \"200\"\n        msg.topic = `SELECT * FROM sensor_humedad where created_at > ${fecha}`        \n        break;\n    case \"ph\":\n        msg.response = \"200\"\n        msg.topic = `SELECT * FROM sensor_ph where created_at > ${fecha}`\n        break;\n    case \"temperatura_agua\":\n        msg.response = \"200\"\n        msg.topic = `SELECT * FROM sensor_temp_agua where created_at > ${fecha}`\n        break;\n    case \"temperatura_aire\":\n        msg.response = \"200\"\n        msg.topic = `SELECT * FROM sensor_temp_aire where created_at > ${fecha}`\n        break;\n    default:\n        msg.response = \"404\"\n        msg.fail = `Bad Resquet. Sensor ${sensor} database not found`\n        \n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1820,
+        "y": 1760,
+        "wires": [
+            [
+                "70555907e35f523e"
+            ]
+        ]
+    },
+    {
+        "id": "1545eed63ae7ecbe",
+        "type": "http in",
+        "z": "86f06ab063db9ad1",
+        "name": "EndPoint Historico Humedad",
+        "url": "/sensor/humedad",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 1520,
+        "y": 1780,
+        "wires": [
+            [
+                "2f391342f96a19ed"
+            ]
+        ],
+        "info": "# La estructura del endpoint\n\nhttp://[server_host]:1880/sensor/humedad?date=[date_eposh]&sensor=[sensor_name]\n\n## Sensor names\n\n- humedad\n- ph\n- temp_agua\n- temp_aire"
+    },
+    {
+        "id": "3d8467523c4c84dc",
+        "type": "http response",
+        "z": "86f06ab063db9ad1",
+        "name": "Respuesta humedad historica",
+        "statusCode": "200",
+        "headers": {
+            "content-type": "application/json"
+        },
+        "x": 2890,
+        "y": 1640,
+        "wires": []
+    },
+    {
+        "id": "fa5fe660ab42e0e2",
+        "type": "function",
+        "z": "86f06ab063db9ad1",
+        "name": "Traformar data de respuesta",
+        "func": "if(msg.payload.length == 0 ){\n    msg.payload = {name:\"Empty\", data: []}\n    return msg;\n}\n\nvar output = {\n    name: msg.payload[0].sensor,\n    data: []\n}\nmsg.payload.forEach(function(obj) {\n    output.data.push([obj.created_at, obj.humedad])\n});\nmsg.payload = output;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 2540,
+        "y": 1760,
+        "wires": [
+            [
+                "3d8467523c4c84dc"
+            ]
+        ]
+    },
+    {
+        "id": "70555907e35f523e",
+        "type": "switch",
+        "z": "86f06ab063db9ad1",
+        "name": "",
+        "property": "response",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "200",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "404",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 1990,
+        "y": 1840,
+        "wires": [
+            [
+                "ac263b802272b979"
+            ],
+            [
+                "5b9fa45fbe95633e"
+            ]
+        ]
+    },
+    {
+        "id": "e41dcdc2f87a1277",
+        "type": "http response",
+        "z": "86f06ab063db9ad1",
+        "name": "Respuesta humedad historica",
+        "statusCode": "404",
+        "headers": {
+            "content-type": "application/json"
+        },
+        "x": 2330,
+        "y": 2040,
+        "wires": []
+    },
+    {
+        "id": "5b9fa45fbe95633e",
+        "type": "change",
+        "z": "86f06ab063db9ad1",
+        "name": "Mensaje de error",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"msg\":\"Bad request, sensor not found\"}",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 2070,
+        "y": 1960,
+        "wires": [
+            [
+                "e41dcdc2f87a1277"
+            ]
+        ]
+    },
+    {
+        "id": "3839f0a88d75305b",
+        "type": "function",
+        "z": "86f06ab063db9ad1",
+        "name": "Consultar Parametros",
+        "func": "var sensor_name = msg.payload.sensor\nvar query = `select min_value, max_value from params where sensor = '${sensor_name}'`\nmsg.params = msg.payload\nmsg.topic = query\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 420,
+        "y": 140,
+        "wires": [
+            [
+                "90b7bc833bf35567"
+            ]
+        ]
+    },
+    {
+        "id": "90b7bc833bf35567",
+        "type": "sqlite",
+        "z": "86f06ab063db9ad1",
+        "mydb": "c88f4e9f19d39aa7",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "hydro-db",
+        "x": 640,
+        "y": 140,
+        "wires": [
+            [
+                "779e79b86d4a3e17"
+            ]
+        ]
+    },
+    {
+        "id": "779e79b86d4a3e17",
+        "type": "change",
+        "z": "86f06ab063db9ad1",
+        "name": "Cambios",
+        "rules": [
+            {
+                "t": "set",
+                "p": "temp",
+                "pt": "msg",
+                "to": "algo",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "temp",
+                "pt": "msg",
+                "to": "params",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "params",
+                "pt": "msg",
+                "to": "payload[0]",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "temp",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 800,
+        "y": 140,
+        "wires": [
+            [
+                "1343712aa04c5764"
+            ]
+        ]
+    },
+    {
+        "id": "63bb3e53c0ba1b0c",
+        "type": "complete",
+        "z": "86f06ab063db9ad1",
+        "name": "Validacion completa de humedad",
+        "scope": [
+            "1343712aa04c5764"
+        ],
+        "uncaught": false,
+        "x": 870,
+        "y": 680,
+        "wires": [
+            [
+                "0d98da15a483d6d6"
+            ]
+        ]
+    },
+    {
+        "id": "37db25b4d24c3d69",
+        "type": "function",
+        "z": "86f06ab063db9ad1",
+        "name": "Consultar Parametros",
+        "func": "var sensor_name = msg.payload.sensor\nvar query = `select min_value, max_value from params where sensor = '${sensor_name}'`\nmsg.params = msg.payload\nmsg.topic = query\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 420,
+        "y": 220,
+        "wires": [
+            [
+                "dbe968dd70b9103a"
+            ]
+        ]
+    },
+    {
+        "id": "dbe968dd70b9103a",
+        "type": "sqlite",
+        "z": "86f06ab063db9ad1",
+        "mydb": "c88f4e9f19d39aa7",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "hydro-db",
+        "x": 640,
+        "y": 220,
+        "wires": [
+            [
+                "0e3cae44e5538035"
+            ]
+        ]
+    },
+    {
+        "id": "0e3cae44e5538035",
+        "type": "change",
+        "z": "86f06ab063db9ad1",
+        "name": "Cambios",
+        "rules": [
+            {
+                "t": "set",
+                "p": "temp",
+                "pt": "msg",
+                "to": "algo",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "temp",
+                "pt": "msg",
+                "to": "params",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "params",
+                "pt": "msg",
+                "to": "payload[0]",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "temp",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 800,
+        "y": 220,
+        "wires": [
+            [
+                "69f526bf0a216988"
+            ]
+        ]
+    },
+    {
+        "id": "6da64c5002efdcbe",
+        "type": "complete",
+        "z": "86f06ab063db9ad1",
+        "name": "Validacion completa de ph",
+        "scope": [
+            "69f526bf0a216988"
+        ],
+        "uncaught": false,
+        "x": 850,
+        "y": 820,
+        "wires": [
+            [
+                "740847a5e84ed083"
+            ]
+        ]
+    },
+    {
+        "id": "1012b71c11af4906",
+        "type": "function",
+        "z": "86f06ab063db9ad1",
+        "name": "Consultar Parametros",
+        "func": "var sensor_name = msg.payload.sensor\nvar query = `select min_value, max_value from params where sensor = '${sensor_name}'`\nmsg.params = msg.payload\nmsg.topic = query\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 460,
+        "y": 300,
+        "wires": [
+            [
+                "9e8c1b20f93b9f33"
+            ]
+        ]
+    },
+    {
+        "id": "9e8c1b20f93b9f33",
+        "type": "sqlite",
+        "z": "86f06ab063db9ad1",
+        "mydb": "c88f4e9f19d39aa7",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "hydro-db",
+        "x": 680,
+        "y": 300,
+        "wires": [
+            [
+                "7078c852ca115970"
+            ]
+        ]
+    },
+    {
+        "id": "7078c852ca115970",
+        "type": "change",
+        "z": "86f06ab063db9ad1",
+        "name": "Cambios",
+        "rules": [
+            {
+                "t": "set",
+                "p": "temp",
+                "pt": "msg",
+                "to": "algo",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "temp",
+                "pt": "msg",
+                "to": "params",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "params",
+                "pt": "msg",
+                "to": "payload[0]",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "temp",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 840,
+        "y": 300,
+        "wires": [
+            [
+                "7da38bca68aa858b"
+            ]
+        ]
+    },
+    {
+        "id": "3f25b60bcef189a2",
+        "type": "function",
+        "z": "86f06ab063db9ad1",
+        "name": "Consultar Parametros",
+        "func": "var sensor_name = msg.payload.sensor\nvar query = `select min_value, max_value from params where sensor = '${sensor_name}'`\nmsg.params = msg.payload\nmsg.topic = query\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 460,
+        "y": 380,
+        "wires": [
+            [
+                "4d9ad17b5d0f59a8"
+            ]
+        ]
+    },
+    {
+        "id": "4d9ad17b5d0f59a8",
+        "type": "sqlite",
+        "z": "86f06ab063db9ad1",
+        "mydb": "c88f4e9f19d39aa7",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "hydro-db",
+        "x": 680,
+        "y": 380,
+        "wires": [
+            [
+                "e9dfe883184112ba"
+            ]
+        ]
+    },
+    {
+        "id": "e9dfe883184112ba",
+        "type": "change",
+        "z": "86f06ab063db9ad1",
+        "name": "Cambios",
+        "rules": [
+            {
+                "t": "set",
+                "p": "temp",
+                "pt": "msg",
+                "to": "algo",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "temp",
+                "pt": "msg",
+                "to": "params",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "params",
+                "pt": "msg",
+                "to": "payload[0]",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "temp",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 840,
+        "y": 380,
+        "wires": [
+            [
+                "6651a6d2965fe8ad"
+            ]
+        ]
+    },
+    {
+        "id": "b4ffe2421019a696",
+        "type": "complete",
+        "z": "86f06ab063db9ad1",
+        "name": "Validacion completa de temp aire",
+        "scope": [
+            "7da38bca68aa858b"
+        ],
+        "uncaught": false,
+        "x": 870,
+        "y": 940,
+        "wires": [
+            [
+                "27c004431a396698"
+            ]
+        ]
+    },
+    {
+        "id": "7e3882c63fcfe7dc",
+        "type": "complete",
+        "z": "86f06ab063db9ad1",
+        "name": "Validacion completa de temp agua",
+        "scope": [
+            "6651a6d2965fe8ad"
+        ],
+        "uncaught": false,
+        "x": 880,
+        "y": 1020,
+        "wires": [
+            [
+                "de55978483076df7"
+            ]
+        ]
+    },
+    {
+        "id": "7fba6038faf30cfb",
+        "type": "complete",
+        "z": "86f06ab063db9ad1",
+        "name": "Captura de datos en tiempo real",
+        "scope": [
+            "63bb3e53c0ba1b0c",
+            "6da64c5002efdcbe",
+            "b4ffe2421019a696",
+            "7e3882c63fcfe7dc"
+        ],
+        "uncaught": false,
+        "x": 1150,
+        "y": 1160,
+        "wires": [
+            [
+                "c991cfaeec459d9e"
+            ]
+        ]
+    },
+    {
+        "id": "bd02ede6b831c79d",
+        "type": "function",
+        "z": "86f06ab063db9ad1",
+        "name": "Mensaje generado para accion",
+        "func": "\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1490,
+        "y": 540,
+        "wires": [
+            [
+                "67f8d95def2efda5"
+            ]
+        ]
+    },
+    {
+        "id": "67f8d95def2efda5",
+        "type": "mqtt out",
+        "z": "86f06ab063db9ad1",
+        "name": "Accion Humedad",
+        "topic": "/accion/humedad",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "0d664f1cc8511a50",
+        "x": 1790,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "019b2218bce7efa4",
+        "type": "complete",
+        "z": "86f06ab063db9ad1",
+        "name": "Accion completa de humedad",
+        "scope": [
+            "bd02ede6b831c79d"
+        ],
+        "uncaught": false,
+        "x": 1640,
+        "y": 620,
+        "wires": [
+            [
+                "7cc110305198ae49"
+            ]
+        ]
+    },
+    {
+        "id": "bd7aa0e8898fc0cf",
+        "type": "sqlite",
+        "z": "6b9eda19d7fd75cd",
+        "mydb": "c88f4e9f19d39aa7",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "hydro-db",
+        "x": 720,
+        "y": 240,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ec4fce8ac4a905a7",
+        "type": "function",
+        "z": "6b9eda19d7fd75cd",
+        "name": "Create db schema",
+        "func": "msg.payload = `\ncreate table sensor_humedad(\n    humedad decimal not null default 0,\n    created_at integer(4) not null default(strftime('%s', 'now')),\n    sensor text\n);create table sensor_temp_agua(\n    temperatura_agua decimal not null default 0,\n    created_at integer(4) not null default (strftime('%s','now')),\n    sensor text\n);create table sensor_temp_aire(\n    temperatura_aire decimal not null default 0,\n    created_at integer(4) not null default (strftime('%s','now')),\n    sensor text\n);create table params(\n    sensor text not null,\n    min_value decimal not null default 0,\n    max_value decimal not null DEFAULT 0,\n    created_at integer(4) not null default (strftime('%s','now')),\n    updated_at integer(4) not null default (strftime('%s','now')),\n    created_by text not null default \"Admin\",\n    state text not null default \"A\"\n);insert into params (sensor, min_value, max_value) values (\"Humedad\",55,65);\ninsert into params (sensor, min_value, max_value) values (\"Ph\",5.5,6.5);\ninsert into params (sensor, min_value, max_value) values (\"Temp_aire\",17,22);\ninsert into params (sensor, min_value, max_value) values (\"Temp_agua\",18,26);\n`\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 430,
+        "y": 100,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ec7d37068a8fa0f3",
+        "type": "inject",
+        "z": "6b9eda19d7fd75cd",
+        "name": "",
+        "props": [],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 150,
+        "y": 240,
+        "wires": [
+            [
+                "ec4fce8ac4a905a7",
+                "bb27152b2d8786f7"
+            ]
+        ]
+    },
+    {
+        "id": "bb27152b2d8786f7",
+        "type": "function",
+        "z": "6b9eda19d7fd75cd",
+        "name": "function 1",
+        "func": "msg.topic = `create table sensor_ph(\n    ph decimal not null default 0,\n    created_at integer(4) not null default (strftime('%s','now')),\n    sensor text\n);`\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 440,
+        "y": 400,
+        "wires": [
+            [
+                "bd7aa0e8898fc0cf"
+            ]
+        ]
+    }
+]
