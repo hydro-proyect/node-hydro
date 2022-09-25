@@ -18,7 +18,7 @@
     {
         "id": "c88f4e9f19d39aa7",
         "type": "sqlitedb",
-        "db": "/home/azureuser/db",
+        "db": "/home/azureuser/db/hydro-db.db",
         "mode": "RWC"
     },
     {
@@ -1577,10 +1577,8 @@
             [
                 "bb27152b2d8786f7",
                 "161d18b7423a67c9",
-                "737cd45dfd443486",
                 "8e3f5712b3e13ac9",
-                "86bb217b8cb5e775",
-                "c74e4bc1f2754255"
+                "86bb217b8cb5e775"
             ]
         ]
     },
@@ -1608,7 +1606,7 @@
         "type": "function",
         "z": "6b9eda19d7fd75cd",
         "name": "tabla humedad",
-        "func": "msg.topic = `create table sensor_humedad(humedad decimal not null default 0,created_at integer(4) not null default (strftime('%s','now'), sensor text ));`\nreturn msg;",
+        "func": "msg.topic = `create table sensor_humedad(\n    humedad decimal not null default 0,\n    created_at integer(4) not null default (strftime('%s','now')),\n    sensor text\n);`\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -1684,7 +1682,7 @@
         "type": "function",
         "z": "6b9eda19d7fd75cd",
         "name": "datos de params",
-        "func": "msg.topic = `insert into params (sensor, min_value, max_value) values (\"Humedad\",55,65);insert into params (sensor, min_value, max_value) values (\"Ph\",5.5,6.5);insert into params (sensor, min_value, max_value) values (\"Temp_aire\",17,22);insert into params (sensor, min_value, max_value) values (\"Temp_agua\",18,26);`\nreturn msg;",
+        "func": "msg.payload = `insert into params (sensor, min_value, max_value) values (\"Humedad\",55,65);insert into params (sensor, min_value, max_value) values (\"Ph\",5.5,6.5);insert into params (sensor, min_value, max_value) values (\"Temp_aire\",17,22);insert into params (sensor, min_value, max_value) values (\"Temp_agua\",18,26);`\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -1753,11 +1751,50 @@
         "tosidebar": true,
         "console": false,
         "tostatus": false,
-        "complete": "false",
+        "complete": "true",
+        "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
         "x": 940,
         "y": 240,
         "wires": []
+    },
+    {
+        "id": "970b230955c5f0da",
+        "type": "inject",
+        "z": "6b9eda19d7fd75cd",
+        "name": "",
+        "props": [],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 110,
+        "y": 540,
+        "wires": [
+            [
+                "c74e4bc1f2754255"
+            ]
+        ]
+    },
+    {
+        "id": "220efb6c57ec3240",
+        "type": "inject",
+        "z": "6b9eda19d7fd75cd",
+        "name": "",
+        "props": [],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 190,
+        "y": 120,
+        "wires": [
+            [
+                "737cd45dfd443486"
+            ]
+        ]
     }
 ]
