@@ -55,6 +55,12 @@
         "wholemsg": "true"
     },
     {
+        "id": "2dd356477fb908ab",
+        "type": "sqlitedb",
+        "db": "/home/xantx/db/hydro-db.db",
+        "mode": "RWC"
+    },
+    {
         "id": "9c1511b1010c20bc",
         "type": "inject",
         "z": "86f06ab063db9ad1",
@@ -97,20 +103,20 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 2430,
-        "y": 900,
+        "x": 2730,
+        "y": 1040,
         "wires": []
     },
     {
         "id": "79bf636695e5f0df",
         "type": "sqlite",
         "z": "86f06ab063db9ad1",
-        "mydb": "c88f4e9f19d39aa7",
+        "mydb": "2dd356477fb908ab",
         "sqlquery": "msg.topic",
         "sql": "",
         "name": "hydro-db",
-        "x": 2160,
-        "y": 820,
+        "x": 2460,
+        "y": 960,
         "wires": [
             [
                 "ddfe8204503c1963"
@@ -163,8 +169,8 @@
         "name": "Salida websockets",
         "server": "077bd6710b91c044",
         "client": "",
-        "x": 1790,
-        "y": 1160,
+        "x": 1750,
+        "y": 1660,
         "wires": []
     },
     {
@@ -181,7 +187,7 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 1420,
-        "y": 1500,
+        "y": 1740,
         "wires": []
     },
     {
@@ -192,7 +198,7 @@
         "server": "077bd6710b91c044",
         "client": "",
         "x": 1230,
-        "y": 1520,
+        "y": 1760,
         "wires": [
             [
                 "9052c54a68b726ab",
@@ -208,7 +214,7 @@
         "server": "077bd6710b91c044",
         "client": "",
         "x": 1450,
-        "y": 1580,
+        "y": 1820,
         "wires": []
     },
     {
@@ -550,10 +556,12 @@
         "checkall": "true",
         "repair": false,
         "outputs": 2,
-        "x": 1210,
-        "y": 820,
+        "x": 1170,
+        "y": 980,
         "wires": [
-            [],
+            [
+                "b0b1022c886ecbc7"
+            ],
             [
                 "bc1ffdffed3ee340"
             ]
@@ -581,10 +589,12 @@
         "checkall": "true",
         "repair": false,
         "outputs": 2,
-        "x": 1220,
-        "y": 940,
+        "x": 1180,
+        "y": 1200,
         "wires": [
-            [],
+            [
+                "c6357c2a6836d5bb"
+            ],
             [
                 "964bfb7cfbbea6ba"
             ]
@@ -612,10 +622,12 @@
         "checkall": "true",
         "repair": false,
         "outputs": 2,
-        "x": 1220,
-        "y": 1020,
+        "x": 1180,
+        "y": 1520,
         "wires": [
-            [],
+            [
+                "32f3f574880a17fa"
+            ],
             [
                 "2a8476252a1f6d74"
             ]
@@ -651,8 +663,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1780,
-        "y": 840,
+        "x": 1740,
+        "y": 1000,
         "wires": [
             [
                 "79bf636695e5f0df"
@@ -670,8 +682,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1800,
-        "y": 960,
+        "x": 1760,
+        "y": 1220,
         "wires": [
             [
                 "79bf636695e5f0df"
@@ -689,8 +701,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1810,
-        "y": 1040,
+        "x": 1770,
+        "y": 1540,
         "wires": [
             [
                 "79bf636695e5f0df"
@@ -775,8 +787,8 @@
         "once": false,
         "onceDelay": 0.1,
         "topic": "",
-        "x": 2060,
-        "y": 560,
+        "x": 2360,
+        "y": 700,
         "wires": [
             [
                 "f6f764d9ea1e08c8"
@@ -794,8 +806,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 2320,
-        "y": 580,
+        "x": 2620,
+        "y": 720,
         "wires": [
             [
                 "cb4b4064fc81f9ce"
@@ -813,8 +825,8 @@
         "arraySpltType": "len",
         "stream": true,
         "addname": "",
-        "x": 2550,
-        "y": 600,
+        "x": 2850,
+        "y": 740,
         "wires": [
             [
                 "9a16b93e680e9bfd"
@@ -840,8 +852,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 2710,
-        "y": 600,
+        "x": 3010,
+        "y": 740,
         "wires": [
             [
                 "79bf636695e5f0df"
@@ -904,8 +916,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 1490,
-        "y": 1160,
+        "x": 1450,
+        "y": 1660,
         "wires": [
             [
                 "457c5b617cc5af92"
@@ -916,11 +928,11 @@
         "id": "ac263b802272b979",
         "type": "sqlite",
         "z": "86f06ab063db9ad1",
-        "mydb": "c88f4e9f19d39aa7",
+        "mydb": "2dd356477fb908ab",
         "sqlquery": "msg.topic",
         "sql": "",
-        "name": "hydro-db",
-        "x": 2200,
+        "name": "hydro-db-endpoint",
+        "x": 2230,
         "y": 1740,
         "wires": [
             [
@@ -1020,7 +1032,7 @@
         "repair": false,
         "outputs": 2,
         "x": 1990,
-        "y": 1840,
+        "y": 1860,
         "wires": [
             [
                 "ac263b802272b979"
@@ -1093,7 +1105,7 @@
         "id": "90b7bc833bf35567",
         "type": "sqlite",
         "z": "86f06ab063db9ad1",
-        "mydb": "c88f4e9f19d39aa7",
+        "mydb": "2dd356477fb908ab",
         "sqlquery": "msg.topic",
         "sql": "",
         "name": "hydro-db",
@@ -1193,7 +1205,7 @@
         "id": "dbe968dd70b9103a",
         "type": "sqlite",
         "z": "86f06ab063db9ad1",
-        "mydb": "c88f4e9f19d39aa7",
+        "mydb": "2dd356477fb908ab",
         "sqlquery": "msg.topic",
         "sql": "",
         "name": "hydro-db",
@@ -1262,8 +1274,8 @@
             "69f526bf0a216988"
         ],
         "uncaught": false,
-        "x": 850,
-        "y": 820,
+        "x": 810,
+        "y": 980,
         "wires": [
             [
                 "740847a5e84ed083"
@@ -1293,7 +1305,7 @@
         "id": "9e8c1b20f93b9f33",
         "type": "sqlite",
         "z": "86f06ab063db9ad1",
-        "mydb": "c88f4e9f19d39aa7",
+        "mydb": "2dd356477fb908ab",
         "sqlquery": "msg.topic",
         "sql": "",
         "name": "hydro-db",
@@ -1376,7 +1388,7 @@
         "id": "4d9ad17b5d0f59a8",
         "type": "sqlite",
         "z": "86f06ab063db9ad1",
-        "mydb": "c88f4e9f19d39aa7",
+        "mydb": "2dd356477fb908ab",
         "sqlquery": "msg.topic",
         "sql": "",
         "name": "hydro-db",
@@ -1445,8 +1457,8 @@
             "7da38bca68aa858b"
         ],
         "uncaught": false,
-        "x": 870,
-        "y": 940,
+        "x": 830,
+        "y": 1200,
         "wires": [
             [
                 "27c004431a396698"
@@ -1462,8 +1474,8 @@
             "6651a6d2965fe8ad"
         ],
         "uncaught": false,
-        "x": 880,
-        "y": 1020,
+        "x": 840,
+        "y": 1520,
         "wires": [
             [
                 "de55978483076df7"
@@ -1482,8 +1494,8 @@
             "7e3882c63fcfe7dc"
         ],
         "uncaught": false,
-        "x": 1150,
-        "y": 1160,
+        "x": 1110,
+        "y": 1660,
         "wires": [
             [
                 "c991cfaeec459d9e"
@@ -1501,8 +1513,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1490,
-        "y": 540,
+        "x": 1430,
+        "y": 500,
         "wires": [
             [
                 "67f8d95def2efda5"
@@ -1523,7 +1535,7 @@
         "correl": "",
         "expiry": "",
         "broker": "0d664f1cc8511a50",
-        "x": 1790,
+        "x": 1690,
         "y": 460,
         "wires": []
     },
@@ -1543,6 +1555,168 @@
                 "7cc110305198ae49"
             ]
         ]
+    },
+    {
+        "id": "b0b1022c886ecbc7",
+        "type": "function",
+        "z": "86f06ab063db9ad1",
+        "name": "Mensaje generado para accion",
+        "func": "\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1350,
+        "y": 820,
+        "wires": [
+            [
+                "9a7b8d1fee7899ee"
+            ]
+        ]
+    },
+    {
+        "id": "9a7b8d1fee7899ee",
+        "type": "mqtt out",
+        "z": "86f06ab063db9ad1",
+        "name": "Accion ph",
+        "topic": "/accion/ph",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "0d664f1cc8511a50",
+        "x": 1580,
+        "y": 820,
+        "wires": []
+    },
+    {
+        "id": "a141b05028958092",
+        "type": "complete",
+        "z": "86f06ab063db9ad1",
+        "name": "Accion completa de ph",
+        "scope": [
+            "b0b1022c886ecbc7"
+        ],
+        "uncaught": false,
+        "x": 1560,
+        "y": 900,
+        "wires": [
+            [
+                "bc1ffdffed3ee340"
+            ]
+        ]
+    },
+    {
+        "id": "cb6d073df133cc46",
+        "type": "complete",
+        "z": "86f06ab063db9ad1",
+        "name": "Accion completa de temp aire",
+        "scope": [
+            "c6357c2a6836d5bb"
+        ],
+        "uncaught": false,
+        "x": 1560,
+        "y": 1160,
+        "wires": [
+            [
+                "964bfb7cfbbea6ba"
+            ]
+        ]
+    },
+    {
+        "id": "c6357c2a6836d5bb",
+        "type": "function",
+        "z": "86f06ab063db9ad1",
+        "name": "Mensaje generado para accion",
+        "func": "\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1370,
+        "y": 1080,
+        "wires": [
+            [
+                "289fb63a0a3c5636"
+            ]
+        ]
+    },
+    {
+        "id": "289fb63a0a3c5636",
+        "type": "mqtt out",
+        "z": "86f06ab063db9ad1",
+        "name": "Accion temp aire",
+        "topic": "/accion/temp/aire",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "0d664f1cc8511a50",
+        "x": 1630,
+        "y": 1080,
+        "wires": []
+    },
+    {
+        "id": "40c2af9ad17abc53",
+        "type": "complete",
+        "z": "86f06ab063db9ad1",
+        "name": "Accion completa de temp agua",
+        "scope": [
+            "32f3f574880a17fa"
+        ],
+        "uncaught": false,
+        "x": 1630,
+        "y": 1380,
+        "wires": [
+            [
+                "2a8476252a1f6d74"
+            ]
+        ]
+    },
+    {
+        "id": "32f3f574880a17fa",
+        "type": "function",
+        "z": "86f06ab063db9ad1",
+        "name": "Mensaje generado para accion",
+        "func": "\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1430,
+        "y": 1300,
+        "wires": [
+            [
+                "9bcfac4192a65eaf"
+            ]
+        ]
+    },
+    {
+        "id": "9bcfac4192a65eaf",
+        "type": "mqtt out",
+        "z": "86f06ab063db9ad1",
+        "name": "Accion temp agua",
+        "topic": "/accion/temp/agua",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "0d664f1cc8511a50",
+        "x": 1690,
+        "y": 1300,
+        "wires": []
     },
     {
         "id": "bd7aa0e8898fc0cf",
