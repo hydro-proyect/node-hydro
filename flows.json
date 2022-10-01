@@ -76,7 +76,7 @@
         "props": [
             {
                 "p": "humedad",
-                "v": "55",
+                "v": "56",
                 "vt": "num"
             },
             {
@@ -1367,7 +1367,8 @@
         "y": 500,
         "wires": [
             [
-                "67f8d95def2efda5"
+                "67f8d95def2efda5",
+                "8202a522a7cb8904"
             ]
         ]
     },
@@ -1566,6 +1567,23 @@
         "broker": "0d664f1cc8511a50",
         "x": 1690,
         "y": 1300,
+        "wires": []
+    },
+    {
+        "id": "8202a522a7cb8904",
+        "type": "debug",
+        "z": "86f06ab063db9ad1",
+        "name": "Accion",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1650,
+        "y": 380,
         "wires": []
     },
     {
@@ -1860,12 +1878,12 @@
         "id": "7a70ab4b9b91b7eb",
         "type": "http in",
         "z": "436ade1fc82c1784",
-        "name": "EndPoint Historico Humedad",
+        "name": "EndPoint Historico mayores a una fecha",
         "url": "/data/historico/:sensor/date/:date",
         "method": "get",
         "upload": false,
         "swaggerDoc": "",
-        "x": 260,
+        "x": 290,
         "y": 200,
         "wires": [
             [
@@ -2013,14 +2031,14 @@
         "id": "8a25beaa5ad7bff0",
         "type": "function",
         "z": "436ade1fc82c1784",
-        "name": "Query select all",
+        "name": "Insert new params",
         "func": "var { sensor, min_value, max_value } = msg.req.body\n\nswitch (sensor) {\n    case \"humedad\":\n        msg.response = \"200\"\n        msg.topic = `insert into params (sensor, min_value, max_value) values (\"${sensor}\",${min_value},${max_value});`        \n        break;\n    case \"ph\":\n        msg.response = \"200\"\n        msg.topic = `insert into params (sensor, min_value, max_value) values (\"${sensor}\",${min_value},${max_value});`\n        break;\n    case \"temp_agua\":\n        msg.response = \"200\"\n        msg.topic = `insert into params(sensor, min_value, max_value) values(\"${sensor}\", ${min_value}, ${max_value});`\n        break;\n    case \"temp_aire\":\n        msg.response = \"200\"\n        msg.topic = `insert into params(sensor, min_value, max_value) values(\"${sensor}\", ${min_value}, ${max_value});`\n        break;\n    default:\n        msg.response = \"404\"\n        msg.fail = `Bad Resquet. Sensor ${sensor} database not found`\n        \n}\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1160,
+        "x": 1170,
         "y": 1620,
         "wires": [
             [
@@ -2066,14 +2084,14 @@
         "id": "49f1b5b2b8192822",
         "type": "function",
         "z": "436ade1fc82c1784",
-        "name": "Query select all",
+        "name": "Update old params",
         "func": "var { sensor } = msg.req.body\n\nswitch (sensor) {\n    case \"humedad\":\n        msg.response = \"200\"\n        msg.topic = `update params set state = 'D', updated_at = (strftime('%s','now')) where state = 'A' and sensor = '${sensor}';`\n        break;\n    case \"ph\":\n        msg.response = \"200\"\n        msg.topic = `update params set state = 'D', updated_at = (strftime('%s','now')) where state = 'A' and sensor = '${sensor}';`\n        break;\n    case \"temp_agua\":\n        msg.response = \"200\"\n        msg.topic = `update params set state = 'D', updated_at = (strftime('%s','now')) where state = 'A' and sensor = '${sensor}';`\n        break;\n    case \"temp_aire\":\n        msg.response = \"200\"\n        msg.topic = `update params set state = 'D', updated_at = (strftime('%s','now')) where state = 'A' and sensor = '${sensor}';`\n        break;\n    default:\n        msg.response = \"404\"\n        msg.fail = `Bad Resquet. Sensor ${sensor} database not found`\n        \n}\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 400,
+        "x": 410,
         "y": 1600,
         "wires": [
             [
@@ -2332,12 +2350,12 @@
         "id": "b00e25ccca2cecb3",
         "type": "http in",
         "z": "436ade1fc82c1784",
-        "name": "EndPoint Historico Humedad",
+        "name": "EndPoint Historico entre dos fechas",
         "url": "/data/historico/:sensor/mindate/:min_date/maxdate/:max_date",
         "method": "get",
         "upload": false,
         "swaggerDoc": "",
-        "x": 240,
+        "x": 260,
         "y": 540,
         "wires": [
             [
