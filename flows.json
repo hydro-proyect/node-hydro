@@ -24,6 +24,14 @@
         "env": []
     },
     {
+        "id": "ef90393b2a9252fc",
+        "type": "tab",
+        "label": "Guardar promedios",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
         "id": "c88f4e9f19d39aa7",
         "type": "sqlitedb",
         "db": "/home/azureuser/db/hydro-db.db",
@@ -59,14 +67,32 @@
     {
         "id": "077bd6710b91c044",
         "type": "websocket-listener",
-        "path": "/ws/test",
-        "wholemsg": "true"
+        "path": "/ws/data/humedad",
+        "wholemsg": "false"
     },
     {
         "id": "2dd356477fb908ab",
         "type": "sqlitedb",
         "db": "/home/xantx/db/hydro-db.db",
         "mode": "RWC"
+    },
+    {
+        "id": "09f4f659d5f637f1",
+        "type": "websocket-listener",
+        "path": "/ws/data/ph",
+        "wholemsg": "false"
+    },
+    {
+        "id": "fe5d9c7092457770",
+        "type": "websocket-listener",
+        "path": "/ws/data/temperatura/aire",
+        "wholemsg": "false"
+    },
+    {
+        "id": "cc2f22fe8b86af7d",
+        "type": "websocket-listener",
+        "path": "/ws/data/temperatura/agua",
+        "wholemsg": "false"
     },
     {
         "id": "9c1511b1010c20bc",
@@ -85,7 +111,7 @@
                 "vt": "str"
             }
         ],
-        "repeat": "",
+        "repeat": "1",
         "crontab": "",
         "once": false,
         "onceDelay": 0.1,
@@ -119,7 +145,7 @@
         "id": "79bf636695e5f0df",
         "type": "sqlite",
         "z": "86f06ab063db9ad1",
-        "mydb": "2dd356477fb908ab",
+        "mydb": "c88f4e9f19d39aa7",
         "sqlquery": "msg.topic",
         "sql": "",
         "name": "hydro-db",
@@ -182,34 +208,17 @@
         "wires": []
     },
     {
-        "id": "9052c54a68b726ab",
-        "type": "debug",
-        "z": "86f06ab063db9ad1",
-        "name": "debug 1",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1240,
-        "y": 2000,
-        "wires": []
-    },
-    {
         "id": "ca8d90f0bcef7265",
         "type": "websocket in",
         "z": "86f06ab063db9ad1",
+        "d": true,
         "name": "In",
         "server": "077bd6710b91c044",
         "client": "",
-        "x": 1050,
-        "y": 2020,
+        "x": 810,
+        "y": 2240,
         "wires": [
             [
-                "9052c54a68b726ab",
                 "e29e3c624e75c2b6"
             ]
         ]
@@ -218,11 +227,12 @@
         "id": "e29e3c624e75c2b6",
         "type": "websocket out",
         "z": "86f06ab063db9ad1",
+        "d": true,
         "name": "Salida de entrada",
         "server": "077bd6710b91c044",
         "client": "",
-        "x": 1270,
-        "y": 2080,
+        "x": 1030,
+        "y": 2300,
         "wires": []
     },
     {
@@ -251,13 +261,13 @@
         "type": "function",
         "z": "86f06ab063db9ad1",
         "name": "Armar Payload Humedad",
-        "func": "var { humedad, sensor } = msg\nmsg.payload = {\n    humedad,\n    sensor\n}\n\nreturn msg;",
+        "func": "var { humedad, sensor } = msg\nvar dato_global = global.get(\"humedad\")\nhumedad = dato(dato_global)\nmsg.payload = {\n    humedad,\n    sensor\n}\nfunction dato (data) {\n    let valor = Math.floor(Math.random() * 101);\n    if (data <= 0)\n    {\n        global.set(\"humedad\", 50)\n        return 50\n    }\n    if ( data >= 100){\n        global.set('humedad', 50)\n        return 50\n    }\n    if (valor >= 50 ){\n        global.set(\"humedad\",data + 3)\n        return data + 3;\n    }else {\n        global.set(\"humedad\",data - 3)\n        return data - 3;\n    }\n}\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 410,
+        "x": 430,
         "y": 1640,
         "wires": [
             [
@@ -324,12 +334,12 @@
                 "vt": "str"
             }
         ],
-        "repeat": "",
+        "repeat": "1",
         "crontab": "",
         "once": false,
         "onceDelay": 0.1,
         "topic": "",
-        "x": 320,
+        "x": 330,
         "y": 1940,
         "wires": [
             [
@@ -360,7 +370,7 @@
         "type": "function",
         "z": "86f06ab063db9ad1",
         "name": "Armar Payload temp aire",
-        "func": "var { temperatura_aire, sensor } = msg\nmsg.payload = {\n    temperatura_aire,\n    sensor\n}\n\nreturn msg;",
+        "func": "var { temperatura_aire, sensor } = msg\nvar dato_global = global.get(\"temperatura_aire\")\ntemperatura_aire = dato(dato_global)\nmsg.payload = {\n    temperatura_aire,\n    sensor\n}\nfunction dato(data) {\n    let valor = Math.floor(Math.random() * 101);\n    if (data <= 0) {\n        global.set(\"temperatura_aire\", 20)\n        return 20\n    }\n    if (data >= 40) {\n        global.set('temperatura_aire', 25)\n        return 25\n    }\n    if (valor >= 50) {\n        global.set(\"temperatura_aire\", data + 2)\n        return data + 2;\n    } else {\n        global.set(\"temperatura_aire\", data - 2)\n        return data - 2;\n    }\n}\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -391,12 +401,12 @@
                 "vt": "str"
             }
         ],
-        "repeat": "",
+        "repeat": "1",
         "crontab": "",
         "once": false,
         "onceDelay": 0.1,
         "topic": "",
-        "x": 320,
+        "x": 330,
         "y": 2080,
         "wires": [
             [
@@ -427,7 +437,7 @@
         "type": "function",
         "z": "86f06ab063db9ad1",
         "name": "Armar Payload temp agua",
-        "func": "var { temperatura_agua, sensor } = msg\nmsg.payload = {\n    temperatura_agua,\n    sensor\n}\n\nreturn msg;",
+        "func": "var { temperatura_agua, sensor } = msg\nvar dato_global = global.get(\"temperatura_agua\")\ntemperatura_agua = dato(dato_global)\nmsg.payload = {\n    temperatura_agua,\n    sensor\n}\nfunction dato(data) {\n    let valor = Math.floor(Math.random() * 101);\n    if (data <= 0) {\n        global.set(\"temperatura_agua\", 20)\n        return 20\n    }\n    if (data >= 40) {\n        global.set('temperatura_agua', 25)\n        return 25\n    }\n    if (valor >= 50) {\n        global.set(\"temperatura_agua\", data + 2)\n        return data + 2;\n    } else {\n        global.set(\"temperatura_agua\", data - 2)\n        return data - 2;\n    }\n}\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -740,7 +750,7 @@
         "type": "function",
         "z": "86f06ab063db9ad1",
         "name": "Armar Payload ph",
-        "func": "var {ph , sensor } = msg\nmsg.payload = \n{\n    ph,\n    sensor\n}\n\nreturn msg;",
+        "func": "var {ph , sensor } = msg\nvar dato_global = global.get(\"ph\")\nph = dato(dato_global)\nmsg.payload = \n{\n    ph,\n    sensor\n}\nfunction dato(data) {\n    let valor = Math.floor(Math.random() * 101);\n    if (data <= 0) {\n        global.set(\"ph\", 4)\n        return 4\n    }\n    if (data >= 10) {\n        global.set('ph', 7)\n        return 7\n    }\n    if (valor >= 50) {\n        global.set(\"ph\", data + 1)\n        return data + 1;\n    } else {\n        global.set(\"ph\", data - 1)\n        return data - 1;\n    }\n}\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -771,7 +781,7 @@
                 "vt": "str"
             }
         ],
-        "repeat": "",
+        "repeat": "1",
         "crontab": "",
         "once": false,
         "onceDelay": "1",
@@ -907,16 +917,23 @@
                 "tot": "msg"
             },
             {
-                "t": "delete",
-                "p": "payload",
-                "pt": "msg"
-            },
-            {
                 "t": "set",
-                "p": "time",
+                "p": "payload.time",
                 "pt": "msg",
                 "to": "",
                 "tot": "date"
+            },
+            {
+                "t": "set",
+                "p": "payload.value",
+                "pt": "msg",
+                "to": "payload.humedad",
+                "tot": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "payload.humedad",
+                "pt": "msg"
             }
         ],
         "action": "",
@@ -955,7 +972,7 @@
         "id": "90b7bc833bf35567",
         "type": "sqlite",
         "z": "86f06ab063db9ad1",
-        "mydb": "2dd356477fb908ab",
+        "mydb": "c88f4e9f19d39aa7",
         "sqlquery": "msg.topic",
         "sql": "",
         "name": "hydro-db",
@@ -1055,7 +1072,7 @@
         "id": "dbe968dd70b9103a",
         "type": "sqlite",
         "z": "86f06ab063db9ad1",
-        "mydb": "2dd356477fb908ab",
+        "mydb": "c88f4e9f19d39aa7",
         "sqlquery": "msg.topic",
         "sql": "",
         "name": "hydro-db",
@@ -1155,7 +1172,7 @@
         "id": "9e8c1b20f93b9f33",
         "type": "sqlite",
         "z": "86f06ab063db9ad1",
-        "mydb": "2dd356477fb908ab",
+        "mydb": "c88f4e9f19d39aa7",
         "sqlquery": "msg.topic",
         "sql": "",
         "name": "hydro-db",
@@ -1238,7 +1255,7 @@
         "id": "4d9ad17b5d0f59a8",
         "type": "sqlite",
         "z": "86f06ab063db9ad1",
-        "mydb": "2dd356477fb908ab",
+        "mydb": "c88f4e9f19d39aa7",
         "sqlquery": "msg.topic",
         "sql": "",
         "name": "hydro-db",
@@ -1336,15 +1353,12 @@
         "id": "7fba6038faf30cfb",
         "type": "complete",
         "z": "86f06ab063db9ad1",
-        "name": "Captura de datos en tiempo real",
+        "name": "Captura de datos en tiempo real humedad",
         "scope": [
-            "63bb3e53c0ba1b0c",
-            "6da64c5002efdcbe",
-            "b4ffe2421019a696",
-            "7e3882c63fcfe7dc"
+            "63bb3e53c0ba1b0c"
         ],
         "uncaught": false,
-        "x": 1110,
+        "x": 1140,
         "y": 1660,
         "wires": [
             [
@@ -1587,6 +1601,403 @@
         "wires": []
     },
     {
+        "id": "c0078236e706dd48",
+        "type": "change",
+        "z": "86f06ab063db9ad1",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "ph",
+                "pt": "global",
+                "to": "ph",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 650,
+        "y": 1740,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f8b0b4c5718c4fe5",
+        "type": "change",
+        "z": "86f06ab063db9ad1",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "temperatura_aire",
+                "pt": "global",
+                "to": "temperatura_aire",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 800,
+        "y": 1840,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "8d6b60e9ce2b685b",
+        "type": "change",
+        "z": "86f06ab063db9ad1",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "temperatura_agua",
+                "pt": "global",
+                "to": "temperatura_agua",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 380,
+        "y": 2260,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "c93d93f6fef2f781",
+        "type": "websocket out",
+        "z": "86f06ab063db9ad1",
+        "name": "Salida websockets",
+        "server": "cc2f22fe8b86af7d",
+        "client": "",
+        "x": 1750,
+        "y": 2040,
+        "wires": []
+    },
+    {
+        "id": "93628e57771ddaf4",
+        "type": "websocket out",
+        "z": "86f06ab063db9ad1",
+        "name": "Salida websockets",
+        "server": "09f4f659d5f637f1",
+        "client": "",
+        "x": 1730,
+        "y": 1800,
+        "wires": []
+    },
+    {
+        "id": "f5ed4bfe4703f66a",
+        "type": "websocket out",
+        "z": "86f06ab063db9ad1",
+        "name": "Salida websockets",
+        "server": "fe5d9c7092457770",
+        "client": "",
+        "x": 1730,
+        "y": 1900,
+        "wires": []
+    },
+    {
+        "id": "bf8a75a5835081cc",
+        "type": "change",
+        "z": "86f06ab063db9ad1",
+        "name": "Preparar para websocket",
+        "rules": [
+            {
+                "t": "delete",
+                "p": "topic",
+                "pt": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "qos",
+                "pt": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "retain",
+                "pt": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "_topic",
+                "pt": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "accion",
+                "pt": "msg"
+            },
+            {
+                "t": "set",
+                "p": "data",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "payload.time",
+                "pt": "msg",
+                "to": "",
+                "tot": "date"
+            },
+            {
+                "t": "set",
+                "p": "payload.value",
+                "pt": "msg",
+                "to": "payload.ph",
+                "tot": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "payload.ph",
+                "pt": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1450,
+        "y": 1800,
+        "wires": [
+            [
+                "93628e57771ddaf4"
+            ]
+        ]
+    },
+    {
+        "id": "e09d2f3e1c9252ae",
+        "type": "complete",
+        "z": "86f06ab063db9ad1",
+        "name": "Captura de datos en tiempo real ph",
+        "scope": [
+            "6da64c5002efdcbe"
+        ],
+        "uncaught": false,
+        "x": 1120,
+        "y": 1800,
+        "wires": [
+            [
+                "bf8a75a5835081cc"
+            ]
+        ]
+    },
+    {
+        "id": "08faad861f0b5fa7",
+        "type": "change",
+        "z": "86f06ab063db9ad1",
+        "name": "Preparar para websocket",
+        "rules": [
+            {
+                "t": "delete",
+                "p": "topic",
+                "pt": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "qos",
+                "pt": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "retain",
+                "pt": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "_topic",
+                "pt": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "accion",
+                "pt": "msg"
+            },
+            {
+                "t": "set",
+                "p": "data",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "payload.time",
+                "pt": "msg",
+                "to": "",
+                "tot": "date"
+            },
+            {
+                "t": "set",
+                "p": "payload.value",
+                "pt": "msg",
+                "to": "payload.temperatura_aire",
+                "tot": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "payload.temperatura_aire",
+                "pt": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1450,
+        "y": 1920,
+        "wires": [
+            [
+                "f5ed4bfe4703f66a"
+            ]
+        ]
+    },
+    {
+        "id": "3c8b8963d7a0da62",
+        "type": "complete",
+        "z": "86f06ab063db9ad1",
+        "name": "Captura de datos en tiempo real temp aire",
+        "scope": [
+            "b4ffe2421019a696"
+        ],
+        "uncaught": false,
+        "x": 1140,
+        "y": 1920,
+        "wires": [
+            [
+                "08faad861f0b5fa7"
+            ]
+        ]
+    },
+    {
+        "id": "d4aba6551e57c24f",
+        "type": "change",
+        "z": "86f06ab063db9ad1",
+        "name": "Preparar para websocket",
+        "rules": [
+            {
+                "t": "delete",
+                "p": "topic",
+                "pt": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "qos",
+                "pt": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "retain",
+                "pt": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "_topic",
+                "pt": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "accion",
+                "pt": "msg"
+            },
+            {
+                "t": "set",
+                "p": "data",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "payload.time",
+                "pt": "msg",
+                "to": "",
+                "tot": "date"
+            },
+            {
+                "t": "set",
+                "p": "payload.value",
+                "pt": "msg",
+                "to": "payload.temperatura_agua",
+                "tot": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "payload.temperatura_agua",
+                "pt": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1450,
+        "y": 2040,
+        "wires": [
+            [
+                "c93d93f6fef2f781"
+            ]
+        ]
+    },
+    {
+        "id": "ce91cdf15661ee06",
+        "type": "complete",
+        "z": "86f06ab063db9ad1",
+        "name": "Captura de datos en tiempo real temp agua",
+        "scope": [
+            "7e3882c63fcfe7dc"
+        ],
+        "uncaught": false,
+        "x": 1140,
+        "y": 2040,
+        "wires": [
+            [
+                "d4aba6551e57c24f"
+            ]
+        ]
+    },
+    {
+        "id": "bc6378883704a4ec",
+        "type": "change",
+        "z": "86f06ab063db9ad1",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "humedad",
+                "pt": "global",
+                "to": "humedad",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 570,
+        "y": 1580,
+        "wires": [
+            []
+        ]
+    },
+    {
         "id": "bd7aa0e8898fc0cf",
         "type": "sqlite",
         "z": "6b9eda19d7fd75cd",
@@ -1724,7 +2135,7 @@
         "type": "function",
         "z": "6b9eda19d7fd75cd",
         "name": "datos de params",
-        "func": "msg.payload = `insert into params (sensor, min_value, max_value) values (\"Humedad\",55,65);insert into params (sensor, min_value, max_value) values (\"Ph\",5.5,6.5);insert into params (sensor, min_value, max_value) values (\"Temp_aire\",17,22);insert into params (sensor, min_value, max_value) values (\"Temp_agua\",18,26);`\nreturn msg;",
+        "func": "msg.payload = `insert into params (sensor, min_value, max_value) values (\"humedad\",55,65);insert into params (sensor, min_value, max_value) values (\"ph\",5.5,6.5);insert into params (sensor, min_value, max_value) values (\"temp_aire\",17,22);insert into params (sensor, min_value, max_value) values (\"temp_agua\",18,26);`\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -1843,7 +2254,7 @@
         "id": "e7e0bde41244d3db",
         "type": "sqlite",
         "z": "436ade1fc82c1784",
-        "mydb": "2dd356477fb908ab",
+        "mydb": "c88f4e9f19d39aa7",
         "sqlquery": "msg.topic",
         "sql": "",
         "name": "hydro-db-endpoint",
@@ -2007,7 +2418,7 @@
         "upload": false,
         "swaggerDoc": "",
         "x": 220,
-        "y": 1700,
+        "y": 2120,
         "wires": [
             [
                 "49f1b5b2b8192822"
@@ -2024,7 +2435,7 @@
             "content-type": "application/json"
         },
         "x": 1750,
-        "y": 1760,
+        "y": 2180,
         "wires": []
     },
     {
@@ -2039,7 +2450,7 @@
         "finalize": "",
         "libs": [],
         "x": 1170,
-        "y": 1620,
+        "y": 2040,
         "wires": [
             [
                 "56ee4676c672900a",
@@ -2061,19 +2472,19 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 1380,
-        "y": 1480,
+        "y": 1900,
         "wires": []
     },
     {
         "id": "56ee4676c672900a",
         "type": "sqlite",
         "z": "436ade1fc82c1784",
-        "mydb": "2dd356477fb908ab",
+        "mydb": "c88f4e9f19d39aa7",
         "sqlquery": "msg.topic",
         "sql": "",
         "name": "hydro-db-endpoint-insert",
         "x": 1470,
-        "y": 1640,
+        "y": 2060,
         "wires": [
             [
                 "f12a2f5161869a23"
@@ -2092,7 +2503,7 @@
         "finalize": "",
         "libs": [],
         "x": 410,
-        "y": 1600,
+        "y": 2020,
         "wires": [
             [
                 "02f872a4d184d39c"
@@ -2103,12 +2514,12 @@
         "id": "af71669aaac1e15c",
         "type": "sqlite",
         "z": "436ade1fc82c1784",
-        "mydb": "2dd356477fb908ab",
+        "mydb": "c88f4e9f19d39aa7",
         "sqlquery": "msg.topic",
         "sql": "",
         "name": "hydro-db-endpoint-actualizar",
         "x": 720,
-        "y": 1640,
+        "y": 2060,
         "wires": [
             [
                 "8a25beaa5ad7bff0",
@@ -2139,7 +2550,7 @@
         "repair": false,
         "outputs": 2,
         "x": 530,
-        "y": 1880,
+        "y": 2300,
         "wires": [
             [
                 "af71669aaac1e15c"
@@ -2169,7 +2580,7 @@
         "to": "",
         "reg": false,
         "x": 830,
-        "y": 1900,
+        "y": 2320,
         "wires": [
             [
                 "d7cdb1f6499eff9b"
@@ -2186,7 +2597,7 @@
             "content-type": "application/json"
         },
         "x": 1110,
-        "y": 1900,
+        "y": 2320,
         "wires": []
     },
     {
@@ -2203,14 +2614,14 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 1040,
-        "y": 1700,
+        "y": 2120,
         "wires": []
     },
     {
         "id": "43e4483a308efa91",
         "type": "sqlite",
         "z": "436ade1fc82c1784",
-        "mydb": "2dd356477fb908ab",
+        "mydb": "c88f4e9f19d39aa7",
         "sqlquery": "msg.topic",
         "sql": "",
         "name": "hydro-db-endpoint",
@@ -2363,5 +2774,600 @@
             ]
         ],
         "info": "# La estructura del endpoint\n\nhttp://[server_host]:1880/sensor/humedad?date=[date_eposh]&sensor=[sensor_name]\n\n## Sensor names\n\n- humedad\n- ph\n- temp_agua\n- temp_aire"
+    },
+    {
+        "id": "64c250a9d67b54a5",
+        "type": "sqlite",
+        "z": "436ade1fc82c1784",
+        "mydb": "c88f4e9f19d39aa7",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "hydro-db-endpoint",
+        "x": 1030,
+        "y": 980,
+        "wires": [
+            [
+                "0c0c264f41665271"
+            ]
+        ]
+    },
+    {
+        "id": "221b2868012bdc05",
+        "type": "function",
+        "z": "436ade1fc82c1784",
+        "name": "Query select all",
+        "func": "var date = msg.req.params.date\nvar sensor = msg.req.params.sensor\n\nswitch (sensor) {\n    case \"humedad\":\n        msg.response = \"200\"\n        msg.topic = `SELECT * FROM avg_hour_humedad where created_at >= ${date} and created_at <= ${date + 86400};`        \n        break;\n    case \"ph\":\n        msg.response = \"200\"\n        msg.topic = `SELECT * FROM avg_hour_ph where created_at >= ${date} and created_at <= ${date + 86400}`\n        break;\n    case \"temp_agua\":\n        msg.response = \"200\"\n        msg.topic = `SELECT * FROM avg_hour_temp_agua where created_at >= ${date} and created_at <= ${date + 86400}`\n        break;\n    case \"temp_aire\":\n        msg.response = \"200\"\n        msg.topic = `SELECT * FROM avg_hour_temp_aire where created_at >= ${date} and created_at <= ${date + 86400}`\n        break;\n    default:\n        msg.response = \"404\"\n        msg.fail = `Bad Resquet. Sensor ${sensor} database not found`\n        \n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 1000,
+        "wires": [
+            [
+                "11ab04b357f7acd7"
+            ]
+        ]
+    },
+    {
+        "id": "0c0c264f41665271",
+        "type": "function",
+        "z": "436ade1fc82c1784",
+        "name": "Traformar data de respuesta",
+        "func": "if(msg.payload.length == 0 ){\n    msg.payload = {name:\"Empty\", data: []}\n    return msg;\n}\n\nvar output = {\n    name: msg.payload[0].sensor,\n    data: []\n}\nmsg.payload.forEach(function(obj) {\n    output.data.push([obj.created_at, obj.humedad])\n});\nmsg.payload = output;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1340,
+        "y": 980,
+        "wires": [
+            [
+                "fd565d7cf12c07e2"
+            ]
+        ]
+    },
+    {
+        "id": "11ab04b357f7acd7",
+        "type": "switch",
+        "z": "436ade1fc82c1784",
+        "name": "",
+        "property": "response",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "200",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "404",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 790,
+        "y": 1100,
+        "wires": [
+            [
+                "64c250a9d67b54a5"
+            ],
+            [
+                "96a54189d1eaac9f"
+            ]
+        ]
+    },
+    {
+        "id": "d2cdfcf62ff6e6e7",
+        "type": "http response",
+        "z": "436ade1fc82c1784",
+        "name": "Respuesta humedad historica",
+        "statusCode": "400",
+        "headers": {
+            "content-type": "application/json"
+        },
+        "x": 1370,
+        "y": 1180,
+        "wires": []
+    },
+    {
+        "id": "96a54189d1eaac9f",
+        "type": "change",
+        "z": "436ade1fc82c1784",
+        "name": "Mensaje de error",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"msg\":\"Bad request, sensor not found\"}",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1050,
+        "y": 1180,
+        "wires": [
+            [
+                "d2cdfcf62ff6e6e7"
+            ]
+        ]
+    },
+    {
+        "id": "79df4242a2ed37b3",
+        "type": "http in",
+        "z": "436ade1fc82c1784",
+        "name": "EndPoint Historico entre de las horas del dia",
+        "url": "/data/historico/:sensor/horas/date/:date",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 310,
+        "y": 1000,
+        "wires": [
+            [
+                "221b2868012bdc05"
+            ]
+        ],
+        "info": "# La estructura del endpoint\n\nhttp://[server_host]:1880/sensor/humedad?date=[date_eposh]&sensor=[sensor_name]\n\n## Sensor names\n\n- humedad\n- ph\n- temp_agua\n- temp_aire"
+    },
+    {
+        "id": "fd565d7cf12c07e2",
+        "type": "http response",
+        "z": "436ade1fc82c1784",
+        "name": "Respuesta humedad historica",
+        "statusCode": "200",
+        "headers": {
+            "content-type": "application/json"
+        },
+        "x": 1650,
+        "y": 980,
+        "wires": []
+    },
+    {
+        "id": "b52813a05d0f4557",
+        "type": "http response",
+        "z": "436ade1fc82c1784",
+        "name": "Respuesta humedad historica",
+        "statusCode": "200",
+        "headers": {
+            "content-type": "application/json"
+        },
+        "x": 1530,
+        "y": 1400,
+        "wires": []
+    },
+    {
+        "id": "f4da3d4588dc2fe8",
+        "type": "function",
+        "z": "436ade1fc82c1784",
+        "name": "Traformar data de respuesta",
+        "func": "if(msg.payload.length == 0 ){\n    msg.payload = {name:\"Empty\", data: []}\n    return msg;\n}\n\nvar output = {\n    name: msg.payload[0].sensor,\n    data: []\n}\nmsg.payload.forEach(function(obj) {\n    output.data.push([obj.created_at, obj.humedad])\n});\nmsg.payload = output;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1220,
+        "y": 1400,
+        "wires": [
+            [
+                "b52813a05d0f4557"
+            ]
+        ]
+    },
+    {
+        "id": "01d8b3b5b9e07c59",
+        "type": "sqlite",
+        "z": "436ade1fc82c1784",
+        "mydb": "c88f4e9f19d39aa7",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "hydro-db-endpoint",
+        "x": 910,
+        "y": 1400,
+        "wires": [
+            [
+                "f4da3d4588dc2fe8"
+            ]
+        ]
+    },
+    {
+        "id": "8d43e1a53bc2620f",
+        "type": "switch",
+        "z": "436ade1fc82c1784",
+        "name": "",
+        "property": "response",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "200",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "404",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 670,
+        "y": 1520,
+        "wires": [
+            [
+                "01d8b3b5b9e07c59"
+            ],
+            [
+                "7a8c186391a9673e"
+            ]
+        ]
+    },
+    {
+        "id": "e966df6d9e16a90c",
+        "type": "function",
+        "z": "436ade1fc82c1784",
+        "name": "Query select all",
+        "func": "var min_fecha = msg.req.params.min_date\nvar max_fecha = msg.req.params.max_date\nvar sensor = msg.req.params.sensor\n\nswitch (sensor) {\n    case \"humedad\":\n        msg.response = \"200\"\n        msg.topic = `SELECT * FROM avg_minute_humedad where created_at >= ${min_fecha} and created_at <= ${max_fecha};`        \n        break;\n    case \"ph\":\n        msg.response = \"200\"\n        msg.topic = `SELECT * FROM avg_minute_ph where created_at >= ${min_fecha} and created_at <= ${max_fecha}`\n        break;\n    case \"temp_agua\":\n        msg.response = \"200\"\n        msg.topic = `SELECT * FROM avg_minute_temp_agua where created_at >= ${min_fecha} and created_at <= ${max_fecha}`\n        break;\n    case \"temp_aire\":\n        msg.response = \"200\"\n        msg.topic = `SELECT * FROM avg_minute_temp_agua where created_at >= ${min_fecha} and created_at <= ${max_fecha}`\n        break;\n    default:\n        msg.response = \"404\"\n        msg.fail = `Bad Resquet. Sensor ${sensor} database not found`\n        \n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 500,
+        "y": 1420,
+        "wires": [
+            [
+                "8d43e1a53bc2620f"
+            ]
+        ]
+    },
+    {
+        "id": "7a8c186391a9673e",
+        "type": "change",
+        "z": "436ade1fc82c1784",
+        "name": "Mensaje de error",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"msg\":\"Bad request, sensor not found\"}",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 930,
+        "y": 1600,
+        "wires": [
+            [
+                "76ffecca959f5f49"
+            ]
+        ]
+    },
+    {
+        "id": "0c9d63b6ae26232e",
+        "type": "http in",
+        "z": "436ade1fc82c1784",
+        "name": "EndPoint Historico minutos entre dos fechas",
+        "url": "/data/historico/minutos/:sensor/mindate/:min_date/maxdate/:max_date",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 230,
+        "y": 1420,
+        "wires": [
+            [
+                "e966df6d9e16a90c"
+            ]
+        ],
+        "info": "# La estructura del endpoint\n\nhttp://[server_host]:1880/sensor/humedad?date=[date_eposh]&sensor=[sensor_name]\n\n## Sensor names\n\n- humedad\n- ph\n- temp_agua\n- temp_aire"
+    },
+    {
+        "id": "76ffecca959f5f49",
+        "type": "http response",
+        "z": "436ade1fc82c1784",
+        "name": "Respuesta humedad historica",
+        "statusCode": "400",
+        "headers": {
+            "content-type": "application/json"
+        },
+        "x": 1250,
+        "y": 1600,
+        "wires": []
+    },
+    {
+        "id": "37bfcfd9290e3d0c",
+        "type": "inject",
+        "z": "ef90393b2a9252fc",
+        "name": "Promedio luego de una hora",
+        "props": [],
+        "repeat": "3600",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 270,
+        "y": 320,
+        "wires": [
+            [
+                "fdfc937c6bfc905b",
+                "b2beb3655d59d576",
+                "7124cfd0acd80636",
+                "d0e36dbdc566d0b3"
+            ]
+        ]
+    },
+    {
+        "id": "4ff9a96b281fb503",
+        "type": "sqlite",
+        "z": "ef90393b2a9252fc",
+        "mydb": "c88f4e9f19d39aa7",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "hydro-db",
+        "x": 940,
+        "y": 320,
+        "wires": [
+            [
+                "70860a5d7163f1dc"
+            ]
+        ]
+    },
+    {
+        "id": "fdfc937c6bfc905b",
+        "type": "function",
+        "z": "ef90393b2a9252fc",
+        "name": "Avg humedad",
+        "func": "var time = Math.floor(new Date().getTime() / 1000.0)\nmsg.topic = `\n    insert into avg_hour_humedad (humedad, sensor) values (\n        (select round(avg(humedad)) from avg_minute_humedad\n            where created_at <= ${time}\n            and created_at >= ${time - 3600}\n        )\n        ,'humedad');\n`\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 580,
+        "y": 320,
+        "wires": [
+            [
+                "4ff9a96b281fb503"
+            ]
+        ]
+    },
+    {
+        "id": "70860a5d7163f1dc",
+        "type": "debug",
+        "z": "ef90393b2a9252fc",
+        "name": "debug 5",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1160,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "b2beb3655d59d576",
+        "type": "function",
+        "z": "ef90393b2a9252fc",
+        "name": "Avg ph",
+        "func": "var time = Math.floor(new Date().getTime() / 1000.0)\nmsg.topic = `\n    insert into avg_hour_ph (ph, sensor) \n    values (\n        (select round(avg(ph)) \n        from avg_minute_ph\n            where created_at <= ${time}\n            and created_at >= ${time - 3600}\n        )\n        ,'ph');\n`\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 550,
+        "y": 400,
+        "wires": [
+            [
+                "4ff9a96b281fb503"
+            ]
+        ]
+    },
+    {
+        "id": "7124cfd0acd80636",
+        "type": "function",
+        "z": "ef90393b2a9252fc",
+        "name": "Avg temp aire",
+        "func": "var time = Math.floor(new Date().getTime() / 1000.0)\nmsg.topic = `\n    insert into avg_hour_temp_aire \n    (temperatura_aire, sensor) values (\n        (select round(avg(temperatura_aire)) \n        from avg_minute_temp_aire\n            where created_at <= ${time}\n            and created_at >= ${time - 3600}\n        )\n        ,'temp_aire');\n`\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 580,
+        "y": 460,
+        "wires": [
+            [
+                "4ff9a96b281fb503"
+            ]
+        ]
+    },
+    {
+        "id": "d0e36dbdc566d0b3",
+        "type": "function",
+        "z": "ef90393b2a9252fc",
+        "name": "Avg temp agua",
+        "func": "var time = Math.floor(new Date().getTime() / 1000.0)\nmsg.topic = `\n    insert into avg_hour_temp_agua \n    (temperatura_agua, sensor) values (\n        (select round(avg(temperatura_agua)) \n        from avg_minute_temp_agua\n            where created_at <= ${time}\n            and created_at >= ${time - 3600}\n        )\n        ,'temp_agua');\n`\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 580,
+        "y": 540,
+        "wires": [
+            [
+                "4ff9a96b281fb503"
+            ]
+        ]
+    },
+    {
+        "id": "559fce2e0062b699",
+        "type": "inject",
+        "z": "ef90393b2a9252fc",
+        "name": "Promedio luego de una hora",
+        "props": [],
+        "repeat": "60",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 230,
+        "y": 740,
+        "wires": [
+            [
+                "04584764036e8499",
+                "0e6cd0deb73786b9",
+                "aa50cacc59eecccb",
+                "188d795539c7c310"
+            ]
+        ]
+    },
+    {
+        "id": "32f45fa0461460f2",
+        "type": "sqlite",
+        "z": "ef90393b2a9252fc",
+        "mydb": "c88f4e9f19d39aa7",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "hydro-db",
+        "x": 900,
+        "y": 740,
+        "wires": [
+            [
+                "7d5013a1f35413e3"
+            ]
+        ]
+    },
+    {
+        "id": "04584764036e8499",
+        "type": "function",
+        "z": "ef90393b2a9252fc",
+        "name": "Avg humedad",
+        "func": "var time = Math.floor(new Date().getTime() / 1000.0)\nmsg.topic = `\n    insert into avg_minute_humedad (humedad, sensor) values (\n        (select round(avg(humedad)) from sensor_humedad\n            where created_at <= ${time}\n            and created_at >= ${time - 60}\n        )\n        ,'humedad');\n`\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 540,
+        "y": 740,
+        "wires": [
+            [
+                "32f45fa0461460f2"
+            ]
+        ]
+    },
+    {
+        "id": "7d5013a1f35413e3",
+        "type": "debug",
+        "z": "ef90393b2a9252fc",
+        "name": "debug 6",
+        "active": true,
+        "tosidebar": true,
+        "console": true,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1130,
+        "y": 740,
+        "wires": []
+    },
+    {
+        "id": "0e6cd0deb73786b9",
+        "type": "function",
+        "z": "ef90393b2a9252fc",
+        "name": "Avg ph",
+        "func": "var time = Math.floor(new Date().getTime() / 1000.0)\nmsg.topic = `\n    insert into avg_minute_ph (ph, sensor) \n    values (\n        (select round(avg(ph)) \n        from sensor_ph\n            where created_at <= ${time}\n            and created_at >= ${time - 60}\n        )\n        ,'ph');\n`\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 510,
+        "y": 820,
+        "wires": [
+            [
+                "32f45fa0461460f2"
+            ]
+        ]
+    },
+    {
+        "id": "aa50cacc59eecccb",
+        "type": "function",
+        "z": "ef90393b2a9252fc",
+        "name": "Avg temp aire",
+        "func": "var time = Math.floor(new Date().getTime() / 1000.0)\nmsg.topic = `\n    insert into avg_minute_temp_aire \n    (temperatura_aire, sensor) values (\n        (select round(avg(temperatura_aire)) \n        from sensor_temp_aire\n            where created_at <= ${time}\n            and created_at >= ${time - 60}\n        )\n        ,'temp_aire');\n`\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 540,
+        "y": 880,
+        "wires": [
+            [
+                "32f45fa0461460f2"
+            ]
+        ]
+    },
+    {
+        "id": "188d795539c7c310",
+        "type": "function",
+        "z": "ef90393b2a9252fc",
+        "name": "Avg temp agua",
+        "func": "var time = Math.floor(new Date().getTime() / 1000.0)\nmsg.topic = `\n    insert into avg_minute_temp_agua \n    (temperatura_agua, sensor) values (\n        (select round(avg(temperatura_agua)) \n        from sensor_temp_agua\n            where created_at <= ${time}\n            and created_at >= ${time - 3600}\n        )\n        ,'temp_agua');\n`\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 540,
+        "y": 960,
+        "wires": [
+            [
+                "32f45fa0461460f2"
+            ]
+        ]
+    },
+    {
+        "id": "099f8be549f2026d",
+        "type": "debug",
+        "z": "ef90393b2a9252fc",
+        "name": "debug 7",
+        "active": true,
+        "tosidebar": true,
+        "console": true,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 910,
+        "y": 640,
+        "wires": []
     }
 ]
