@@ -40,7 +40,7 @@ Aplicacion para granja IoT
 - La variable date recibe la fecha con 00:00:00 horas en formato timestamp
 
 ```
-/data/historico/horas/:sensor/horas/date/:date
+/data/historico/horas/:sensor/date/:date
 ```
 
 ### [GET]
