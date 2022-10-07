@@ -28,7 +28,7 @@ Aplicacion para granja IoT
 
 - Devuelve los datos entre la fecha date y 24 horas despues a partir de fecha(los datos mostrados son el promedio de cada minuto) 
 ```
-/data/historico/horas/:sensor/date/:date
+/data/historico/minutos/:sensor/date/:date
 ```
 
 
