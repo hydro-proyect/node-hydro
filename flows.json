@@ -27,7 +27,7 @@
         "id": "ef90393b2a9252fc",
         "type": "tab",
         "label": "Guardar promedios",
-        "disabled": false,
+        "disabled": true,
         "info": "",
         "env": []
     },
@@ -111,7 +111,7 @@
                 "vt": "str"
             }
         ],
-        "repeat": "1",
+        "repeat": "",
         "crontab": "",
         "once": false,
         "onceDelay": 0.1,
@@ -334,12 +334,12 @@
                 "vt": "str"
             }
         ],
-        "repeat": "1",
+        "repeat": "",
         "crontab": "",
         "once": false,
         "onceDelay": 0.1,
         "topic": "",
-        "x": 330,
+        "x": 320,
         "y": 1940,
         "wires": [
             [
@@ -401,12 +401,12 @@
                 "vt": "str"
             }
         ],
-        "repeat": "1",
+        "repeat": "",
         "crontab": "",
         "once": false,
         "onceDelay": 0.1,
         "topic": "",
-        "x": 330,
+        "x": 320,
         "y": 2080,
         "wires": [
             [
@@ -781,7 +781,7 @@
                 "vt": "str"
             }
         ],
-        "repeat": "1",
+        "repeat": "",
         "crontab": "",
         "once": false,
         "onceDelay": "1",
@@ -2262,7 +2262,8 @@
         "y": 120,
         "wires": [
             [
-                "2d98b00c815a25d7"
+                "2d98b00c815a25d7",
+                "7a8bfba810808f4c"
             ]
         ]
     },
@@ -2271,7 +2272,7 @@
         "type": "function",
         "z": "436ade1fc82c1784",
         "name": "Query select all",
-        "func": "var sensor = msg.req.params.sensor\nvar fecha = msg.req.params.date\n\nswitch (sensor) {\n    case \"humedad\":\n        msg.response = \"200\"\n        msg.topic = `SELECT * FROM sensor_humedad where created_at >= ${fecha}`        \n        break;\n    case \"ph\":\n        msg.response = \"200\"\n        msg.topic = `SELECT * FROM sensor_ph where created_at >= ${fecha}`\n        break;\n    case \"temp_agua\":\n        msg.response = \"200\"\n        msg.topic = `SELECT * FROM sensor_temp_agua where created_at >= ${fecha}`\n        break;\n    case \"temp_aire\":\n        msg.response = \"200\"\n        msg.topic = `SELECT * FROM sensor_temp_aire where created_at >= ${fecha}`\n        break;\n    default:\n        msg.response = \"404\"\n        msg.fail = `Bad Resquet. Sensor ${sensor} database not found`\n        \n}\n\nreturn msg;",
+        "func": "var sensor = msg.req.params.sensor\nvar date = msg.req.params.date\n\nswitch (sensor) {\n    case \"humedad\":\n        msg.response = \"200\"\n        msg.topic = `SELECT humedad as value, sensor, created_at FROM sensor_humedad where created_at >= ${date} and created_at <= ${date + 86400};`        \n        break;\n    case \"ph\":\n        msg.response = \"200\"\n        msg.topic = `SELECT ph as value, sensor, created_at FROM sensor_ph where created_at >= ${date} and created_at <= ${date + 86400};`\n        break;\n    case \"temp_agua\":\n        msg.response = \"200\"\n        msg.topic = `SELECT temperatura_agua as value, sensor, created_at FROM sensor_temp_agua where created_at >= ${date} and created_at <= ${date + 86400};`\n        break;\n    case \"temp_aire\":\n        msg.response = \"200\"\n        msg.topic = `SELECT temperatura_aire as value, sensor, created_at FROM sensor_temp_aire where created_at >= ${date} and created_at <= ${date + 86400};`\n        break;\n    default:\n        msg.response = \"404\"\n        msg.fail = `Bad Resquet. Sensor ${sensor} database not found`\n        \n}\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -2289,12 +2290,12 @@
         "id": "7a70ab4b9b91b7eb",
         "type": "http in",
         "z": "436ade1fc82c1784",
-        "name": "EndPoint Historico mayores a una fecha segundo",
+        "name": "EndPoint historico del dia en segundos",
         "url": "/data/historico/:sensor/date/:date",
         "method": "get",
         "upload": false,
         "swaggerDoc": "",
-        "x": 320,
+        "x": 290,
         "y": 200,
         "wires": [
             [
@@ -2321,7 +2322,7 @@
         "type": "function",
         "z": "436ade1fc82c1784",
         "name": "Traformar data de respuesta",
-        "func": "if(msg.payload.length == 0 ){\n    msg.payload = {name:\"Empty\", data: []}\n    return msg;\n}\n\nvar output = {\n    name: msg.payload[0].sensor,\n    data: []\n}\nmsg.payload.forEach(function(obj) {\n    output.data.push([obj.created_at, obj.humedad])\n});\nmsg.payload = output;\nreturn msg;",
+        "func": "if(msg.payload.length == 0 ){\n    msg.payload = {name:\"Empty\", data: []}\n    return msg;\n}\n\nvar output = {\n    name: msg.payload[0].sensor,\n    data: []\n}\nmsg.payload.forEach(function(obj) {\n    output.data.push([obj.created_at, obj.value])\n});\nmsg.payload = output;\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -2331,7 +2332,8 @@
         "y": 120,
         "wires": [
             [
-                "d06aaf8da4061363"
+                "d06aaf8da4061363",
+                "44adebb7d4aa927c"
             ]
         ]
     },
@@ -2638,7 +2640,7 @@
         "type": "function",
         "z": "436ade1fc82c1784",
         "name": "Query select all",
-        "func": "var min_fecha = msg.req.params.min_date\nvar max_fecha = msg.req.params.max_date\nvar sensor = msg.req.params.sensor\n\nswitch (sensor) {\n    case \"humedad\":\n        msg.response = \"200\"\n        msg.topic = `SELECT * FROM sensor_humedad where created_at >= ${min_fecha} and created_at <= ${max_fecha};`        \n        break;\n    case \"ph\":\n        msg.response = \"200\"\n        msg.topic = `SELECT * FROM sensor_ph where created_at >= ${min_fecha} and created_at <= ${max_fecha}`\n        break;\n    case \"temp_agua\":\n        msg.response = \"200\"\n        msg.topic = `SELECT * FROM sensor_temp_agua where created_at >= ${min_fecha} and created_at <= ${max_fecha}`\n        break;\n    case \"temp_aire\":\n        msg.response = \"200\"\n        msg.topic = `SELECT * FROM sensor_temp_aire where created_at >= ${min_fecha} and created_at <= ${max_fecha}`\n        break;\n    default:\n        msg.response = \"404\"\n        msg.fail = `Bad Resquet. Sensor ${sensor} database not found`\n        \n}\n\nreturn msg;",
+        "func": "var min_fecha = msg.req.params.min_date\nvar max_fecha = msg.req.params.max_date\nvar sensor = msg.req.params.sensor\n\nswitch (sensor) {\n    case \"humedad\":\n        msg.response = \"200\"\n        msg.topic = `SELECT humedad as value, sensor, created_at FROM sensor_humedad where created_at >= ${min_fecha} and created_at <= ${max_fecha};`        \n        break;\n    case \"ph\":\n        msg.response = \"200\"\n        msg.topic = `SELECT ph as value, sensor, created_at FROM sensor_ph where created_at >= ${min_fecha} and created_at <= ${max_fecha}`\n        break;\n    case \"temp_agua\":\n        msg.response = \"200\"\n        msg.topic = `SELECT temperatura_agua as value, sensor, created_at FROM sensor_temp_agua where created_at >= ${min_fecha} and created_at <= ${max_fecha}`\n        break;\n    case \"temp_aire\":\n        msg.response = \"200\"\n        msg.topic = `SELECT temperatura_aire as value, sensor, created_at FROM sensor_temp_aire where created_at >= ${min_fecha} and created_at <= ${max_fecha}`\n        break;\n    default:\n        msg.response = \"404\"\n        msg.fail = `Bad Resquet. Sensor ${sensor} database not found`\n        \n}\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -2670,7 +2672,7 @@
         "type": "function",
         "z": "436ade1fc82c1784",
         "name": "Traformar data de respuesta",
-        "func": "if(msg.payload.length == 0 ){\n    msg.payload = {name:\"Empty\", data: []}\n    return msg;\n}\n\nvar output = {\n    name: msg.payload[0].sensor,\n    data: []\n}\nmsg.payload.forEach(function(obj) {\n    output.data.push([obj.created_at, obj.humedad])\n});\nmsg.payload = output;\nreturn msg;",
+        "func": "if(msg.payload.length == 0 ){\n    msg.payload = {name:\"Empty\", data: []}\n    return msg;\n}\n\nvar output = {\n    name: msg.payload[0].sensor,\n    data: []\n}\nmsg.payload.forEach(function(obj) {\n    output.data.push([obj.created_at, obj.value])\n});\nmsg.payload = output;\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -2793,7 +2795,7 @@
         "type": "function",
         "z": "436ade1fc82c1784",
         "name": "Traformar data de respuesta",
-        "func": "if(msg.payload.length == 0 ){\n    msg.payload = {name:\"Empty\", data: []}\n    return msg;\n}\n\nvar output = {\n    name: msg.payload[0].sensor,\n    data: []\n}\nmsg.payload.forEach(function(obj) {\n    output.data.push([obj.created_at, obj.humedad])\n});\nmsg.payload = output;\nreturn msg;",
+        "func": "if(msg.payload.length == 0 ){\n    msg.payload = {name:\"Empty\", data: []}\n    return msg;\n}\n\nvar output = {\n    name: msg.payload[0].sensor,\n    data: []\n}\nmsg.payload.forEach(function(obj) {\n    output.data.push([obj.created_at, obj.value])\n});\nmsg.payload = output;\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -2861,7 +2863,7 @@
         "type": "function",
         "z": "436ade1fc82c1784",
         "name": "Query select all",
-        "func": "var min_fecha = msg.req.params.min_date\nvar max_fecha = msg.req.params.max_date\nvar sensor = msg.req.params.sensor\n\nswitch (sensor) {\n    case \"humedad\":\n        msg.response = \"200\"\n        msg.topic = `SELECT * FROM avg_minute_humedad where created_at >= ${min_fecha} and created_at <= ${max_fecha};`        \n        break;\n    case \"ph\":\n        msg.response = \"200\"\n        msg.topic = `SELECT * FROM avg_minute_ph where created_at >= ${min_fecha} and created_at <= ${max_fecha}`\n        break;\n    case \"temp_agua\":\n        msg.response = \"200\"\n        msg.topic = `SELECT * FROM avg_minute_temp_agua where created_at >= ${min_fecha} and created_at <= ${max_fecha}`\n        break;\n    case \"temp_aire\":\n        msg.response = \"200\"\n        msg.topic = `SELECT * FROM avg_minute_temp_agua where created_at >= ${min_fecha} and created_at <= ${max_fecha}`\n        break;\n    default:\n        msg.response = \"404\"\n        msg.fail = `Bad Resquet. Sensor ${sensor} database not found`\n        \n}\n\nreturn msg;",
+        "func": "var min_fecha = msg.req.params.min_date\nvar max_fecha = msg.req.params.max_date\nvar sensor = msg.req.params.sensor\n\nswitch (sensor) {\n    case \"humedad\":\n        msg.response = \"200\"\n        msg.topic = `SELECT humedad as value, sensor, created_at FROM avg_minute_humedad where created_at >= ${min_fecha} and created_at <= ${max_fecha};`        \n        break;\n    case \"ph\":\n        msg.response = \"200\"\n        msg.topic = `SELECT ph as value, sensor, created_at FROM avg_minute_ph where created_at >= ${min_fecha} and created_at <= ${max_fecha}`\n        break;\n    case \"temp_agua\":\n        msg.response = \"200\"\n        msg.topic = `SELECT temperatura_agua as value, sensor, created_at FROM avg_minute_temp_agua where created_at >= ${min_fecha} and created_at <= ${max_fecha}`\n        break;\n    case \"temp_aire\":\n        msg.response = \"200\"\n        msg.topic = `SELECT temperatura_aire as value, sensor, created_at FROM avg_minute_temp_aire where created_at >= ${min_fecha} and created_at <= ${max_fecha}`\n        break;\n    default:\n        msg.response = \"404\"\n        msg.fail = `Bad Resquet. Sensor ${sensor} database not found`\n        \n}\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -2942,8 +2944,8 @@
         "headers": {
             "content-type": "application/json"
         },
-        "x": 1510,
-        "y": 1740,
+        "x": 3290,
+        "y": 1200,
         "wires": []
     },
     {
@@ -2951,14 +2953,14 @@
         "type": "function",
         "z": "436ade1fc82c1784",
         "name": "Traformar data de respuesta",
-        "func": "if(msg.payload.length == 0 ){\n    msg.payload = {name:\"Empty\", data: []}\n    return msg;\n}\n\nvar output = {\n    name: msg.payload[0].sensor,\n    data: []\n}\nmsg.payload.forEach(function(obj) {\n    output.data.push([obj.created_at, obj.humedad])\n});\nmsg.payload = output;\nreturn msg;",
+        "func": "if(msg.payload.length == 0 ){\n    msg.payload = {name:\"Empty\", data: []}\n    return msg;\n}\n\nvar output = {\n    name: msg.payload[0].sensor,\n    data: []\n}\nmsg.payload.forEach(function(obj) {\n    output.data.push([obj.created_at, obj.value])\n});\nmsg.payload = output;\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1200,
-        "y": 1740,
+        "x": 2980,
+        "y": 1200,
         "wires": [
             [
                 "cfc649970ae98406"
@@ -2973,8 +2975,8 @@
         "sqlquery": "msg.topic",
         "sql": "",
         "name": "hydro-db-endpoint",
-        "x": 890,
-        "y": 1740,
+        "x": 2670,
+        "y": 1200,
         "wires": [
             [
                 "0189df1b59c49309"
@@ -3003,8 +3005,8 @@
         "checkall": "true",
         "repair": false,
         "outputs": 2,
-        "x": 650,
-        "y": 1860,
+        "x": 2430,
+        "y": 1320,
         "wires": [
             [
                 "4cff67d9d8f9af97"
@@ -3019,14 +3021,14 @@
         "type": "function",
         "z": "436ade1fc82c1784",
         "name": "Query select all",
-        "func": "var min_fecha = msg.req.params.min_date\nvar max_fecha = msg.req.params.max_date\nvar sensor = msg.req.params.sensor\n\nswitch (sensor) {\n    case \"humedad\":\n        msg.response = \"200\"\n        msg.topic = `SELECT * FROM avg_hour_humedad where created_at >= ${min_fecha} and created_at <= ${max_fecha};`        \n        break;\n    case \"ph\":\n        msg.response = \"200\"\n        msg.topic = `SELECT * FROM avg_hour_ph where created_at >= ${min_fecha} and created_at <= ${max_fecha}`\n        break;\n    case \"temp_agua\":\n        msg.response = \"200\"\n        msg.topic = `SELECT * FROM avg_hour_temp_agua where created_at >= ${min_fecha} and created_at <= ${max_fecha}`\n        break;\n    case \"temp_aire\":\n        msg.response = \"200\"\n        msg.topic = `SELECT * FROM avg_hour_temp_aire where created_at >= ${min_fecha} and created_at <= ${max_fecha}`\n        break;\n    default:\n        msg.response = \"404\"\n        msg.fail = `Bad Resquet. Sensor ${sensor} database not found`\n        \n}\n\nreturn msg;",
+        "func": "var min_fecha = msg.req.params.min_date\nvar max_fecha = msg.req.params.max_date\nvar sensor = msg.req.params.sensor\n\nswitch (sensor) {\n    case \"humedad\":\n        msg.response = \"200\"\n        msg.topic = `SELECT humedad as value, sensor, created_at FROM avg_hour_humedad where created_at >= ${min_fecha} and created_at <= ${max_fecha};`        \n        break;\n    case \"ph\":\n        msg.response = \"200\"\n        msg.topic = `SELECT ph as value, sensor, created_at FROM avg_hour_ph where created_at >= ${min_fecha} and created_at <= ${max_fecha}`\n        break;\n    case \"temp_agua\":\n        msg.response = \"200\"\n        msg.topic = `SELECT temperatura_agua as value, sensor, created_at FROM avg_hour_temp_agua where created_at >= ${min_fecha} and created_at <= ${max_fecha}`\n        break;\n    case \"temp_aire\":\n        msg.response = \"200\"\n        msg.topic = `SELECT temperatura_aire as value, sensor, created_at FROM avg_hour_temp_aire where created_at >= ${min_fecha} and created_at <= ${max_fecha}`\n        break;\n    default:\n        msg.response = \"404\"\n        msg.fail = `Bad Resquet. Sensor ${sensor} database not found`\n        \n}\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 480,
-        "y": 1760,
+        "x": 2260,
+        "y": 1220,
         "wires": [
             [
                 "44f3faac36c47982"
@@ -3052,8 +3054,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 910,
-        "y": 1940,
+        "x": 2690,
+        "y": 1400,
         "wires": [
             [
                 "c89062239a360a4b"
@@ -3064,13 +3066,13 @@
         "id": "a1caf476d41e8635",
         "type": "http in",
         "z": "436ade1fc82c1784",
-        "name": "EndPoint Historico entre de las horas del dia",
+        "name": "EndPoint Historico entre dos fechas en horas",
         "url": "/data/historico/horas/:sensor/mindate/:min_date/maxdate/:max_date",
         "method": "get",
         "upload": false,
         "swaggerDoc": "",
-        "x": 170,
-        "y": 1760,
+        "x": 1950,
+        "y": 1220,
         "wires": [
             [
                 "570a796c4435a931"
@@ -3087,21 +3089,21 @@
         "headers": {
             "content-type": "application/json"
         },
-        "x": 1230,
-        "y": 1940,
+        "x": 3010,
+        "y": 1400,
         "wires": []
     },
     {
         "id": "79df4242a2ed37b3",
         "type": "http in",
         "z": "436ade1fc82c1784",
-        "name": "EndPoint Historico entre de las horas del dia",
+        "name": "EndPoint Historico del dia en horas",
         "url": "/data/historico/horas/:sensor/date/:date",
         "method": "get",
         "upload": false,
         "swaggerDoc": "",
-        "x": 310,
-        "y": 1000,
+        "x": 1900,
+        "y": 860,
         "wires": [
             [
                 "221b2868012bdc05"
@@ -3114,14 +3116,14 @@
         "type": "function",
         "z": "436ade1fc82c1784",
         "name": "Query select all",
-        "func": "var date = msg.req.params.date\nvar sensor = msg.req.params.sensor\n\nswitch (sensor) {\n    case \"humedad\":\n        msg.response = \"200\"\n        msg.topic = `SELECT * FROM avg_hour_humedad where created_at >= ${date} and created_at <= ${date + 86400};`        \n        break;\n    case \"ph\":\n        msg.response = \"200\"\n        msg.topic = `SELECT * FROM avg_hour_ph where created_at >= ${date} and created_at <= ${date + 86400}`\n        break;\n    case \"temp_agua\":\n        msg.response = \"200\"\n        msg.topic = `SELECT * FROM avg_hour_temp_agua where created_at >= ${date} and created_at <= ${date + 86400}`\n        break;\n    case \"temp_aire\":\n        msg.response = \"200\"\n        msg.topic = `SELECT * FROM avg_hour_temp_aire where created_at >= ${date} and created_at <= ${date + 86400}`\n        break;\n    default:\n        msg.response = \"404\"\n        msg.fail = `Bad Resquet. Sensor ${sensor} database not found`\n        \n}\n\nreturn msg;",
+        "func": "var date = msg.req.params.date\nvar sensor = msg.req.params.sensor\n\nswitch (sensor) {\n    case \"humedad\":\n        msg.response = \"200\"\n        msg.topic = `SELECT humedad as value, sensor, created_at FROM avg_hour_humedad where created_at >= ${date} and created_at <= ${date + 86400};`        \n        break;\n    case \"ph\":\n        msg.response = \"200\"\n        msg.topic = `SELECT ph as value, sensor, created_at FROM avg_hour_ph where created_at >= ${date} and created_at <= ${date + 86400}`\n        break;\n    case \"temp_agua\":\n        msg.response = \"200\"\n        msg.topic = `SELECT temperatura_agua as value, sensor, created_at FROM avg_hour_temp_agua where created_at >= ${date} and created_at <= ${date + 86400}`\n        break;\n    case \"temp_aire\":\n        msg.response = \"200\"\n        msg.topic = `SELECT temperatura_aire as value, sensor, created_at FROM avg_hour_temp_aire where created_at >= ${date} and created_at <= ${date + 86400}`\n        break;\n    default:\n        msg.response = \"404\"\n        msg.fail = `Bad Resquet. Sensor ${sensor} database not found`\n        \n}\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 620,
-        "y": 1000,
+        "x": 2240,
+        "y": 860,
         "wires": [
             [
                 "11ab04b357f7acd7"
@@ -3150,8 +3152,8 @@
         "checkall": "true",
         "repair": false,
         "outputs": 2,
-        "x": 790,
-        "y": 1100,
+        "x": 2410,
+        "y": 960,
         "wires": [
             [
                 "64c250a9d67b54a5"
@@ -3169,8 +3171,8 @@
         "sqlquery": "msg.topic",
         "sql": "",
         "name": "hydro-db-endpoint",
-        "x": 1030,
-        "y": 980,
+        "x": 2650,
+        "y": 840,
         "wires": [
             [
                 "0c0c264f41665271"
@@ -3196,8 +3198,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 1050,
-        "y": 1180,
+        "x": 2670,
+        "y": 1040,
         "wires": [
             [
                 "d2cdfcf62ff6e6e7"
@@ -3209,14 +3211,14 @@
         "type": "function",
         "z": "436ade1fc82c1784",
         "name": "Traformar data de respuesta",
-        "func": "if(msg.payload.length == 0 ){\n    msg.payload = {name:\"Empty\", data: []}\n    return msg;\n}\n\nvar output = {\n    name: msg.payload[0].sensor,\n    data: []\n}\nmsg.payload.forEach(function(obj) {\n    output.data.push([obj.created_at, obj.humedad])\n});\nmsg.payload = output;\nreturn msg;",
+        "func": "if(msg.payload.length == 0 ){\n    msg.payload = {name:\"Empty\", data: []}\n    return msg;\n}\n\nvar output = {\n    name: msg.payload[0].sensor,\n    data: []\n}\nmsg.payload.forEach(function(obj) {\n    output.data.push([obj.created_at, obj.value])\n});\nmsg.payload = output;\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1340,
-        "y": 980,
+        "x": 2960,
+        "y": 840,
         "wires": [
             [
                 "fd565d7cf12c07e2"
@@ -3232,8 +3234,8 @@
         "headers": {
             "content-type": "application/json"
         },
-        "x": 1370,
-        "y": 1180,
+        "x": 2990,
+        "y": 1040,
         "wires": []
     },
     {
@@ -3245,8 +3247,200 @@
         "headers": {
             "content-type": "application/json"
         },
-        "x": 1650,
-        "y": 980,
+        "x": 3270,
+        "y": 840,
+        "wires": []
+    },
+    {
+        "id": "7a8bfba810808f4c",
+        "type": "debug",
+        "z": "436ade1fc82c1784",
+        "name": "debug 8",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1140,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "44adebb7d4aa927c",
+        "type": "debug",
+        "z": "436ade1fc82c1784",
+        "name": "debug 9",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1460,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "9f9a7e76d092494f",
+        "type": "http response",
+        "z": "436ade1fc82c1784",
+        "name": "Respuesta humedad historica",
+        "statusCode": "200",
+        "headers": {
+            "content-type": "application/json"
+        },
+        "x": 1590,
+        "y": 1740,
+        "wires": []
+    },
+    {
+        "id": "b013dfc4ad24199d",
+        "type": "function",
+        "z": "436ade1fc82c1784",
+        "name": "Traformar data de respuesta",
+        "func": "if(msg.payload.length == 0 ){\n    msg.payload = {name:\"Empty\", data: []}\n    return msg;\n}\n\nvar output = {\n    name: msg.payload[0].sensor,\n    data: []\n}\nmsg.payload.forEach(function(obj) {\n    output.data.push([obj.created_at, obj.value])\n});\nmsg.payload = output;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1280,
+        "y": 1740,
+        "wires": [
+            [
+                "9f9a7e76d092494f"
+            ]
+        ]
+    },
+    {
+        "id": "cb8f642514a9cd3d",
+        "type": "sqlite",
+        "z": "436ade1fc82c1784",
+        "mydb": "c88f4e9f19d39aa7",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "hydro-db-endpoint",
+        "x": 970,
+        "y": 1740,
+        "wires": [
+            [
+                "b013dfc4ad24199d"
+            ]
+        ]
+    },
+    {
+        "id": "d872b5374a9152a4",
+        "type": "switch",
+        "z": "436ade1fc82c1784",
+        "name": "",
+        "property": "response",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "200",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "404",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 730,
+        "y": 1860,
+        "wires": [
+            [
+                "cb8f642514a9cd3d"
+            ],
+            [
+                "e3eaa8e759fb061e"
+            ]
+        ]
+    },
+    {
+        "id": "8dc2904516e4e029",
+        "type": "function",
+        "z": "436ade1fc82c1784",
+        "name": "Query select all",
+        "func": "var date = msg.req.params.date\nvar sensor = msg.req.params.sensor\n\nswitch (sensor) {\n    case \"humedad\":\n        msg.response = \"200\"\n        msg.topic = `SELECT humedad as value, sensor, created_at FROM avg_minute_humedad where created_at >= ${date} and created_at <= ${date + 86400};`        \n        break;\n    case \"ph\":\n        msg.response = \"200\"\n        msg.topic = `SELECT ph as value, sensor, created_at FROM avg_minute_ph where created_at >= ${date} and created_at <= ${date + 86400};`\n        break;\n    case \"temp_agua\":\n        msg.response = \"200\"\n        msg.topic = `SELECT temperatura_agua as value, sensor, created_at FROM avg_minute_temp_agua where created_at >= ${date} and created_at <= ${date + 86400};`\n        break;\n    case \"temp_aire\":\n        msg.response = \"200\"\n        msg.topic = `SELECT temperatura_aire as value, sensor, created_at FROM avg_minute_temp_aire where created_at >= ${date} and created_at <= ${date + 86400};`\n        break;\n    default:\n        msg.response = \"404\"\n        msg.fail = `Bad Resquet. Sensor ${sensor} database not found`\n        \n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 560,
+        "y": 1760,
+        "wires": [
+            [
+                "d872b5374a9152a4"
+            ]
+        ]
+    },
+    {
+        "id": "e3eaa8e759fb061e",
+        "type": "change",
+        "z": "436ade1fc82c1784",
+        "name": "Mensaje de error",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"msg\":\"Bad request, sensor not found\"}",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 990,
+        "y": 1940,
+        "wires": [
+            [
+                "a9423b47f9293ec0"
+            ]
+        ]
+    },
+    {
+        "id": "bfcf1447d386a738",
+        "type": "http in",
+        "z": "436ade1fc82c1784",
+        "name": "EndPoint Historico del dia en minutos",
+        "url": "/data/historico/minutos/:sensor/date/:date",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 270,
+        "y": 1760,
+        "wires": [
+            [
+                "8dc2904516e4e029"
+            ]
+        ],
+        "info": "# La estructura del endpoint\n\nhttp://[server_host]:1880/sensor/humedad?date=[date_eposh]&sensor=[sensor_name]\n\n## Sensor names\n\n- humedad\n- ph\n- temp_agua\n- temp_aire"
+    },
+    {
+        "id": "a9423b47f9293ec0",
+        "type": "http response",
+        "z": "436ade1fc82c1784",
+        "name": "Respuesta humedad historica",
+        "statusCode": "400",
+        "headers": {
+            "content-type": "application/json"
+        },
+        "x": 1310,
+        "y": 1940,
         "wires": []
     },
     {

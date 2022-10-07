@@ -9,7 +9,7 @@ Aplicacion para granja IoT
 
 ### [GET]
 
-- Devuelve los datos que tengas mayor a la fecha date (Datos recolectados por segundo)
+- Devuelve los datos entre la fecha date y 24 horas despues de la fecha especificada (Datos recolectados por segundo)
 
 ```
 /data/historico/:sensor/date/:date
@@ -24,10 +24,17 @@ Aplicacion para granja IoT
 ```
 ## Enpoint de consulta de datos promedio por minuto
 
+### [GET]
+
+- Devuelve los datos entre la fecha date y 24 horas despues a partir de fecha(los datos mostrados son el promedio de cada minuto) 
+```
+/data/historico/horas/:sensor/date/:date
+```
+
 
 ### [GET]
 
-- Devuelve los datos promedio de minutos
+- Devuelve los datos promedio de minutos entre dos fechas
 ```
 /data/historico/minutos/:sensor/mindate/:min_date/maxdate/:max_date
 ```
@@ -36,9 +43,7 @@ Aplicacion para granja IoT
 
 ### [GET]
 
-- Devuelve los datos promedio de horas del dia
-- La variable date recibe la fecha con 00:00:00 horas en formato timestamp
-
+- Devuelve los datos entre la fecha date y 24 horas despues a partir de fecha(los datos mostrados son el promedio de cada hora) 
 ```
 /data/historico/horas/:sensor/date/:date
 ```
