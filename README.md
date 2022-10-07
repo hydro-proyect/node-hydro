@@ -54,3 +54,10 @@ Actualiza los parametros de estado optimo para los sensores
 	"max_value": 60
 }
 ```
+
+## Los nombre de los sensores son
+
+- humedad
+- ph
+- temp_aire
+- temp_agua
