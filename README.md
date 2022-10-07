@@ -72,6 +72,16 @@ Actualiza los parametros de estado optimo para los sensores
 	"max_value": 60
 }
 ```
+# WebSockets
+
+```
+/ws/data/humedad
+/ws/data/ph
+/ws/data/temperatura/agua
+/ws/data/temperatura/aire
+
+```
+
 
 ## Los nombre de los sensores son
 
