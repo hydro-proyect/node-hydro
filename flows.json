@@ -111,7 +111,7 @@
                 "vt": "str"
             }
         ],
-        "repeat": "",
+        "repeat": "1",
         "crontab": "",
         "once": false,
         "onceDelay": 0.1,
@@ -334,12 +334,12 @@
                 "vt": "str"
             }
         ],
-        "repeat": "",
+        "repeat": "1",
         "crontab": "",
         "once": false,
         "onceDelay": 0.1,
         "topic": "",
-        "x": 320,
+        "x": 330,
         "y": 1940,
         "wires": [
             [
@@ -401,12 +401,12 @@
                 "vt": "str"
             }
         ],
-        "repeat": "",
+        "repeat": "1",
         "crontab": "",
         "once": false,
         "onceDelay": 0.1,
         "topic": "",
-        "x": 320,
+        "x": 330,
         "y": 2080,
         "wires": [
             [
@@ -781,7 +781,7 @@
                 "vt": "str"
             }
         ],
-        "repeat": "",
+        "repeat": "1",
         "crontab": "",
         "once": false,
         "onceDelay": "1",
@@ -2289,12 +2289,12 @@
         "id": "7a70ab4b9b91b7eb",
         "type": "http in",
         "z": "436ade1fc82c1784",
-        "name": "EndPoint Historico mayores a una fecha",
+        "name": "EndPoint Historico mayores a una fecha segundo",
         "url": "/data/historico/:sensor/date/:date",
         "method": "get",
         "upload": false,
         "swaggerDoc": "",
-        "x": 290,
+        "x": 320,
         "y": 200,
         "wires": [
             [
@@ -2417,8 +2417,8 @@
         "method": "post",
         "upload": false,
         "swaggerDoc": "",
-        "x": 220,
-        "y": 2120,
+        "x": 300,
+        "y": 2400,
         "wires": [
             [
                 "49f1b5b2b8192822"
@@ -2434,8 +2434,8 @@
         "headers": {
             "content-type": "application/json"
         },
-        "x": 1750,
-        "y": 2180,
+        "x": 1830,
+        "y": 2460,
         "wires": []
     },
     {
@@ -2449,8 +2449,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1170,
-        "y": 2040,
+        "x": 1250,
+        "y": 2320,
         "wires": [
             [
                 "56ee4676c672900a",
@@ -2471,8 +2471,8 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1380,
-        "y": 1900,
+        "x": 1460,
+        "y": 2180,
         "wires": []
     },
     {
@@ -2483,8 +2483,8 @@
         "sqlquery": "msg.topic",
         "sql": "",
         "name": "hydro-db-endpoint-insert",
-        "x": 1470,
-        "y": 2060,
+        "x": 1550,
+        "y": 2340,
         "wires": [
             [
                 "f12a2f5161869a23"
@@ -2502,8 +2502,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 410,
-        "y": 2020,
+        "x": 490,
+        "y": 2300,
         "wires": [
             [
                 "02f872a4d184d39c"
@@ -2518,8 +2518,8 @@
         "sqlquery": "msg.topic",
         "sql": "",
         "name": "hydro-db-endpoint-actualizar",
-        "x": 720,
-        "y": 2060,
+        "x": 800,
+        "y": 2340,
         "wires": [
             [
                 "8a25beaa5ad7bff0",
@@ -2549,8 +2549,8 @@
         "checkall": "true",
         "repair": false,
         "outputs": 2,
-        "x": 530,
-        "y": 2300,
+        "x": 610,
+        "y": 2580,
         "wires": [
             [
                 "af71669aaac1e15c"
@@ -2579,8 +2579,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 830,
-        "y": 2320,
+        "x": 910,
+        "y": 2600,
         "wires": [
             [
                 "d7cdb1f6499eff9b"
@@ -2596,8 +2596,8 @@
         "headers": {
             "content-type": "application/json"
         },
-        "x": 1110,
-        "y": 2320,
+        "x": 1190,
+        "y": 2600,
         "wires": []
     },
     {
@@ -2613,8 +2613,8 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1040,
-        "y": 2120,
+        "x": 1120,
+        "y": 2400,
         "wires": []
     },
     {
@@ -2761,12 +2761,12 @@
         "id": "b00e25ccca2cecb3",
         "type": "http in",
         "z": "436ade1fc82c1784",
-        "name": "EndPoint Historico entre dos fechas",
+        "name": "EndPoint Historico entre dos fechas segundos",
         "url": "/data/historico/:sensor/mindate/:min_date/maxdate/:max_date",
         "method": "get",
         "upload": false,
         "swaggerDoc": "",
-        "x": 260,
+        "x": 290,
         "y": 540,
         "wires": [
             [
@@ -2774,164 +2774,6 @@
             ]
         ],
         "info": "# La estructura del endpoint\n\nhttp://[server_host]:1880/sensor/humedad?date=[date_eposh]&sensor=[sensor_name]\n\n## Sensor names\n\n- humedad\n- ph\n- temp_agua\n- temp_aire"
-    },
-    {
-        "id": "64c250a9d67b54a5",
-        "type": "sqlite",
-        "z": "436ade1fc82c1784",
-        "mydb": "c88f4e9f19d39aa7",
-        "sqlquery": "msg.topic",
-        "sql": "",
-        "name": "hydro-db-endpoint",
-        "x": 1030,
-        "y": 980,
-        "wires": [
-            [
-                "0c0c264f41665271"
-            ]
-        ]
-    },
-    {
-        "id": "221b2868012bdc05",
-        "type": "function",
-        "z": "436ade1fc82c1784",
-        "name": "Query select all",
-        "func": "var date = msg.req.params.date\nvar sensor = msg.req.params.sensor\n\nswitch (sensor) {\n    case \"humedad\":\n        msg.response = \"200\"\n        msg.topic = `SELECT * FROM avg_hour_humedad where created_at >= ${date} and created_at <= ${date + 86400};`        \n        break;\n    case \"ph\":\n        msg.response = \"200\"\n        msg.topic = `SELECT * FROM avg_hour_ph where created_at >= ${date} and created_at <= ${date + 86400}`\n        break;\n    case \"temp_agua\":\n        msg.response = \"200\"\n        msg.topic = `SELECT * FROM avg_hour_temp_agua where created_at >= ${date} and created_at <= ${date + 86400}`\n        break;\n    case \"temp_aire\":\n        msg.response = \"200\"\n        msg.topic = `SELECT * FROM avg_hour_temp_aire where created_at >= ${date} and created_at <= ${date + 86400}`\n        break;\n    default:\n        msg.response = \"404\"\n        msg.fail = `Bad Resquet. Sensor ${sensor} database not found`\n        \n}\n\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 620,
-        "y": 1000,
-        "wires": [
-            [
-                "11ab04b357f7acd7"
-            ]
-        ]
-    },
-    {
-        "id": "0c0c264f41665271",
-        "type": "function",
-        "z": "436ade1fc82c1784",
-        "name": "Traformar data de respuesta",
-        "func": "if(msg.payload.length == 0 ){\n    msg.payload = {name:\"Empty\", data: []}\n    return msg;\n}\n\nvar output = {\n    name: msg.payload[0].sensor,\n    data: []\n}\nmsg.payload.forEach(function(obj) {\n    output.data.push([obj.created_at, obj.humedad])\n});\nmsg.payload = output;\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1340,
-        "y": 980,
-        "wires": [
-            [
-                "fd565d7cf12c07e2"
-            ]
-        ]
-    },
-    {
-        "id": "11ab04b357f7acd7",
-        "type": "switch",
-        "z": "436ade1fc82c1784",
-        "name": "",
-        "property": "response",
-        "propertyType": "msg",
-        "rules": [
-            {
-                "t": "eq",
-                "v": "200",
-                "vt": "str"
-            },
-            {
-                "t": "eq",
-                "v": "404",
-                "vt": "str"
-            }
-        ],
-        "checkall": "true",
-        "repair": false,
-        "outputs": 2,
-        "x": 790,
-        "y": 1100,
-        "wires": [
-            [
-                "64c250a9d67b54a5"
-            ],
-            [
-                "96a54189d1eaac9f"
-            ]
-        ]
-    },
-    {
-        "id": "d2cdfcf62ff6e6e7",
-        "type": "http response",
-        "z": "436ade1fc82c1784",
-        "name": "Respuesta humedad historica",
-        "statusCode": "400",
-        "headers": {
-            "content-type": "application/json"
-        },
-        "x": 1370,
-        "y": 1180,
-        "wires": []
-    },
-    {
-        "id": "96a54189d1eaac9f",
-        "type": "change",
-        "z": "436ade1fc82c1784",
-        "name": "Mensaje de error",
-        "rules": [
-            {
-                "t": "set",
-                "p": "payload",
-                "pt": "msg",
-                "to": "{\"msg\":\"Bad request, sensor not found\"}",
-                "tot": "json"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 1050,
-        "y": 1180,
-        "wires": [
-            [
-                "d2cdfcf62ff6e6e7"
-            ]
-        ]
-    },
-    {
-        "id": "79df4242a2ed37b3",
-        "type": "http in",
-        "z": "436ade1fc82c1784",
-        "name": "EndPoint Historico entre de las horas del dia",
-        "url": "/data/historico/:sensor/horas/date/:date",
-        "method": "get",
-        "upload": false,
-        "swaggerDoc": "",
-        "x": 310,
-        "y": 1000,
-        "wires": [
-            [
-                "221b2868012bdc05"
-            ]
-        ],
-        "info": "# La estructura del endpoint\n\nhttp://[server_host]:1880/sensor/humedad?date=[date_eposh]&sensor=[sensor_name]\n\n## Sensor names\n\n- humedad\n- ph\n- temp_agua\n- temp_aire"
-    },
-    {
-        "id": "fd565d7cf12c07e2",
-        "type": "http response",
-        "z": "436ade1fc82c1784",
-        "name": "Respuesta humedad historica",
-        "statusCode": "200",
-        "headers": {
-            "content-type": "application/json"
-        },
-        "x": 1650,
-        "y": 980,
-        "wires": []
     },
     {
         "id": "b52813a05d0f4557",
@@ -3092,6 +2934,322 @@
         "wires": []
     },
     {
+        "id": "cfc649970ae98406",
+        "type": "http response",
+        "z": "436ade1fc82c1784",
+        "name": "Respuesta humedad historica",
+        "statusCode": "200",
+        "headers": {
+            "content-type": "application/json"
+        },
+        "x": 1510,
+        "y": 1740,
+        "wires": []
+    },
+    {
+        "id": "0189df1b59c49309",
+        "type": "function",
+        "z": "436ade1fc82c1784",
+        "name": "Traformar data de respuesta",
+        "func": "if(msg.payload.length == 0 ){\n    msg.payload = {name:\"Empty\", data: []}\n    return msg;\n}\n\nvar output = {\n    name: msg.payload[0].sensor,\n    data: []\n}\nmsg.payload.forEach(function(obj) {\n    output.data.push([obj.created_at, obj.humedad])\n});\nmsg.payload = output;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1200,
+        "y": 1740,
+        "wires": [
+            [
+                "cfc649970ae98406"
+            ]
+        ]
+    },
+    {
+        "id": "4cff67d9d8f9af97",
+        "type": "sqlite",
+        "z": "436ade1fc82c1784",
+        "mydb": "c88f4e9f19d39aa7",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "hydro-db-endpoint",
+        "x": 890,
+        "y": 1740,
+        "wires": [
+            [
+                "0189df1b59c49309"
+            ]
+        ]
+    },
+    {
+        "id": "44f3faac36c47982",
+        "type": "switch",
+        "z": "436ade1fc82c1784",
+        "name": "",
+        "property": "response",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "200",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "404",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 650,
+        "y": 1860,
+        "wires": [
+            [
+                "4cff67d9d8f9af97"
+            ],
+            [
+                "821e0b0a78a7cc8f"
+            ]
+        ]
+    },
+    {
+        "id": "570a796c4435a931",
+        "type": "function",
+        "z": "436ade1fc82c1784",
+        "name": "Query select all",
+        "func": "var min_fecha = msg.req.params.min_date\nvar max_fecha = msg.req.params.max_date\nvar sensor = msg.req.params.sensor\n\nswitch (sensor) {\n    case \"humedad\":\n        msg.response = \"200\"\n        msg.topic = `SELECT * FROM avg_hour_humedad where created_at >= ${min_fecha} and created_at <= ${max_fecha};`        \n        break;\n    case \"ph\":\n        msg.response = \"200\"\n        msg.topic = `SELECT * FROM avg_hour_ph where created_at >= ${min_fecha} and created_at <= ${max_fecha}`\n        break;\n    case \"temp_agua\":\n        msg.response = \"200\"\n        msg.topic = `SELECT * FROM avg_hour_temp_agua where created_at >= ${min_fecha} and created_at <= ${max_fecha}`\n        break;\n    case \"temp_aire\":\n        msg.response = \"200\"\n        msg.topic = `SELECT * FROM avg_hour_temp_aire where created_at >= ${min_fecha} and created_at <= ${max_fecha}`\n        break;\n    default:\n        msg.response = \"404\"\n        msg.fail = `Bad Resquet. Sensor ${sensor} database not found`\n        \n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 480,
+        "y": 1760,
+        "wires": [
+            [
+                "44f3faac36c47982"
+            ]
+        ]
+    },
+    {
+        "id": "821e0b0a78a7cc8f",
+        "type": "change",
+        "z": "436ade1fc82c1784",
+        "name": "Mensaje de error",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"msg\":\"Bad request, sensor not found\"}",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 910,
+        "y": 1940,
+        "wires": [
+            [
+                "c89062239a360a4b"
+            ]
+        ]
+    },
+    {
+        "id": "a1caf476d41e8635",
+        "type": "http in",
+        "z": "436ade1fc82c1784",
+        "name": "EndPoint Historico entre de las horas del dia",
+        "url": "/data/historico/horas/:sensor/mindate/:min_date/maxdate/:max_date",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 170,
+        "y": 1760,
+        "wires": [
+            [
+                "570a796c4435a931"
+            ]
+        ],
+        "info": "# La estructura del endpoint\n\nhttp://[server_host]:1880/sensor/humedad?date=[date_eposh]&sensor=[sensor_name]\n\n## Sensor names\n\n- humedad\n- ph\n- temp_agua\n- temp_aire"
+    },
+    {
+        "id": "c89062239a360a4b",
+        "type": "http response",
+        "z": "436ade1fc82c1784",
+        "name": "Respuesta humedad historica",
+        "statusCode": "400",
+        "headers": {
+            "content-type": "application/json"
+        },
+        "x": 1230,
+        "y": 1940,
+        "wires": []
+    },
+    {
+        "id": "79df4242a2ed37b3",
+        "type": "http in",
+        "z": "436ade1fc82c1784",
+        "name": "EndPoint Historico entre de las horas del dia",
+        "url": "/data/historico/horas/:sensor/horas/date/:date",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 310,
+        "y": 1000,
+        "wires": [
+            [
+                "221b2868012bdc05"
+            ]
+        ],
+        "info": "# La estructura del endpoint\n\nhttp://[server_host]:1880/sensor/humedad?date=[date_eposh]&sensor=[sensor_name]\n\n## Sensor names\n\n- humedad\n- ph\n- temp_agua\n- temp_aire"
+    },
+    {
+        "id": "221b2868012bdc05",
+        "type": "function",
+        "z": "436ade1fc82c1784",
+        "name": "Query select all",
+        "func": "var date = msg.req.params.date\nvar sensor = msg.req.params.sensor\n\nswitch (sensor) {\n    case \"humedad\":\n        msg.response = \"200\"\n        msg.topic = `SELECT * FROM avg_hour_humedad where created_at >= ${date} and created_at <= ${date + 86400};`        \n        break;\n    case \"ph\":\n        msg.response = \"200\"\n        msg.topic = `SELECT * FROM avg_hour_ph where created_at >= ${date} and created_at <= ${date + 86400}`\n        break;\n    case \"temp_agua\":\n        msg.response = \"200\"\n        msg.topic = `SELECT * FROM avg_hour_temp_agua where created_at >= ${date} and created_at <= ${date + 86400}`\n        break;\n    case \"temp_aire\":\n        msg.response = \"200\"\n        msg.topic = `SELECT * FROM avg_hour_temp_aire where created_at >= ${date} and created_at <= ${date + 86400}`\n        break;\n    default:\n        msg.response = \"404\"\n        msg.fail = `Bad Resquet. Sensor ${sensor} database not found`\n        \n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 1000,
+        "wires": [
+            [
+                "11ab04b357f7acd7"
+            ]
+        ]
+    },
+    {
+        "id": "11ab04b357f7acd7",
+        "type": "switch",
+        "z": "436ade1fc82c1784",
+        "name": "",
+        "property": "response",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "200",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "404",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 790,
+        "y": 1100,
+        "wires": [
+            [
+                "64c250a9d67b54a5"
+            ],
+            [
+                "96a54189d1eaac9f"
+            ]
+        ]
+    },
+    {
+        "id": "64c250a9d67b54a5",
+        "type": "sqlite",
+        "z": "436ade1fc82c1784",
+        "mydb": "c88f4e9f19d39aa7",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "hydro-db-endpoint",
+        "x": 1030,
+        "y": 980,
+        "wires": [
+            [
+                "0c0c264f41665271"
+            ]
+        ]
+    },
+    {
+        "id": "96a54189d1eaac9f",
+        "type": "change",
+        "z": "436ade1fc82c1784",
+        "name": "Mensaje de error",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"msg\":\"Bad request, sensor not found\"}",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1050,
+        "y": 1180,
+        "wires": [
+            [
+                "d2cdfcf62ff6e6e7"
+            ]
+        ]
+    },
+    {
+        "id": "0c0c264f41665271",
+        "type": "function",
+        "z": "436ade1fc82c1784",
+        "name": "Traformar data de respuesta",
+        "func": "if(msg.payload.length == 0 ){\n    msg.payload = {name:\"Empty\", data: []}\n    return msg;\n}\n\nvar output = {\n    name: msg.payload[0].sensor,\n    data: []\n}\nmsg.payload.forEach(function(obj) {\n    output.data.push([obj.created_at, obj.humedad])\n});\nmsg.payload = output;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1340,
+        "y": 980,
+        "wires": [
+            [
+                "fd565d7cf12c07e2"
+            ]
+        ]
+    },
+    {
+        "id": "d2cdfcf62ff6e6e7",
+        "type": "http response",
+        "z": "436ade1fc82c1784",
+        "name": "Respuesta humedad historica",
+        "statusCode": "400",
+        "headers": {
+            "content-type": "application/json"
+        },
+        "x": 1370,
+        "y": 1180,
+        "wires": []
+    },
+    {
+        "id": "fd565d7cf12c07e2",
+        "type": "http response",
+        "z": "436ade1fc82c1784",
+        "name": "Respuesta humedad historica",
+        "statusCode": "200",
+        "headers": {
+            "content-type": "application/json"
+        },
+        "x": 1650,
+        "y": 980,
+        "wires": []
+    },
+    {
         "id": "37bfcfd9290e3d0c",
         "type": "inject",
         "z": "ef90393b2a9252fc",
@@ -3226,7 +3384,7 @@
         "id": "559fce2e0062b699",
         "type": "inject",
         "z": "ef90393b2a9252fc",
-        "name": "Promedio luego de una hora",
+        "name": "Promedio luego de un minuto",
         "props": [],
         "repeat": "60",
         "crontab": "",
@@ -3286,13 +3444,13 @@
         "name": "debug 6",
         "active": true,
         "tosidebar": true,
-        "console": true,
+        "console": false,
         "tostatus": false,
         "complete": "true",
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1130,
+        "x": 1120,
         "y": 740,
         "wires": []
     },

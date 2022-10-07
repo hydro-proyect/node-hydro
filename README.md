@@ -3,7 +3,9 @@ hydro-proyect
 
 Aplicacion para granja IoT
 
-## Endpoints 
+# Endpoints 
+
+## Enpoints para consuta de datos por segundo
 
 ### [GET]
 
@@ -20,6 +22,17 @@ Aplicacion para granja IoT
 ```
 /data/historico/:sensor/mindate/:min_date/maxdate/:max_date
 ```
+## Enpoint de consulta de datos promedio por minuto
+
+
+### [GET]
+
+- Devuelve los datos promedio de minutos
+```
+/data/historico/minutos/:sensor/mindate/:min_date/maxdate/:max_date
+```
+
+## Enpoints de consultade datos promedio por hora
 
 ### [GET]
 
@@ -27,14 +40,14 @@ Aplicacion para granja IoT
 - La variable date recibe la fecha con 00:00:00 horas en formato timestamp
 
 ```
-/data/historico/:sensor/horas/date/:date
+/data/historico/horas/:sensor/horas/date/:date
 ```
 
 ### [GET]
 
-- Devuelve los datos promedio de minutos
+- Devuelve los datos promedio de las horas en un rango de fechas
 ```
-/data/historico/minutos/:sensor/mindate/:min_date/maxdate/:max_date
+/data/historico/horas/:sensor/mindate/:min_date/maxdate/:max_date
 ```
 
 ### [POST]
