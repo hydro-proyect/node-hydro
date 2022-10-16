@@ -2251,6 +2251,268 @@
         ]
     },
     {
+        "id": "abec8a7fdb85b239",
+        "type": "function",
+        "z": "6b9eda19d7fd75cd",
+        "name": "Tabla avg horas humedad",
+        "func": "msg.topic = `create table avg_hour_humedad(\n    humedad decimal not null default 0,\n    created_at integer(4) not null default (strftime('%s','now')),\n    sensor text\n);`\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 490,
+        "y": 720,
+        "wires": [
+            [
+                "f3f68c0115deb3a8"
+            ]
+        ]
+    },
+    {
+        "id": "e693be3c768b5123",
+        "type": "function",
+        "z": "6b9eda19d7fd75cd",
+        "name": "Tabla avg horas ph",
+        "func": "msg.topic = `create table avg_hour_ph(\n    ph decimal not null default 0,\n    created_at integer(4) not null default (strftime('%s','now')),\n    sensor text\n);`\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 780,
+        "wires": [
+            [
+                "f3f68c0115deb3a8"
+            ]
+        ]
+    },
+    {
+        "id": "9c4fa2ebf51b4935",
+        "type": "function",
+        "z": "6b9eda19d7fd75cd",
+        "name": "Tabla avg horas temp aire",
+        "func": "msg.topic = `create table avg_hour_temp_aire(\n    temperatura_aire decimal not null default 0,\n    created_at integer(4) not null default (strftime('%s','now')),\n    sensor text\n);`\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 490,
+        "y": 860,
+        "wires": [
+            [
+                "f3f68c0115deb3a8"
+            ]
+        ]
+    },
+    {
+        "id": "ae1cc0d37c8e143a",
+        "type": "function",
+        "z": "6b9eda19d7fd75cd",
+        "name": "Tabla avg horas temp agua",
+        "func": "msg.topic = `create table avg_hour_temp_agua(\n    temperatura_agua decimal not null default 0,\n    created_at integer(4) not null default (strftime('%s','now')),\n    sensor text\n);`\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 500,
+        "y": 920,
+        "wires": [
+            [
+                "f3f68c0115deb3a8"
+            ]
+        ]
+    },
+    {
+        "id": "09e869d86e599ecf",
+        "type": "function",
+        "z": "6b9eda19d7fd75cd",
+        "name": "Tabla avg minutos humedad",
+        "func": "msg.topic = `create table avg_minute_humedad(\n    humedad decimal not null default 0,\n    created_at integer(4) not null default (strftime('%s','now')),\n    sensor text\n);`\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 500,
+        "y": 1040,
+        "wires": [
+            [
+                "cd8c71d9619c170f"
+            ]
+        ]
+    },
+    {
+        "id": "9efe5e3b84319968",
+        "type": "function",
+        "z": "6b9eda19d7fd75cd",
+        "name": "Tabla avg minutos ph",
+        "func": "msg.topic = `create table avg_minute_ph(\n    ph decimal not null default 0,\n    created_at integer(4) not null default (strftime('%s','now')),\n    sensor text\n);`\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 480,
+        "y": 1100,
+        "wires": [
+            [
+                "cd8c71d9619c170f"
+            ]
+        ]
+    },
+    {
+        "id": "e58864f024c6b5cc",
+        "type": "function",
+        "z": "6b9eda19d7fd75cd",
+        "name": "Tabla avg minutos temp aire",
+        "func": "msg.topic = `create table avg_minute_temp_aire(\n    temperatura_aire decimal not null default 0,\n    created_at integer(4) not null default (strftime('%s','now')),\n    sensor text\n);`\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 500,
+        "y": 1180,
+        "wires": [
+            [
+                "cd8c71d9619c170f"
+            ]
+        ]
+    },
+    {
+        "id": "46892be85b7201cc",
+        "type": "function",
+        "z": "6b9eda19d7fd75cd",
+        "name": "Tabla avg minutos temp agua",
+        "func": "msg.topic = `create table avg_minute_temp_agua(\n    temperatura_agua decimal not null default 0,\n    created_at integer(4) not null default (strftime('%s','now')),\n    sensor text\n);`\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 500,
+        "y": 1240,
+        "wires": [
+            [
+                "cd8c71d9619c170f"
+            ]
+        ]
+    },
+    {
+        "id": "85f8f2eb98d9a51c",
+        "type": "inject",
+        "z": "6b9eda19d7fd75cd",
+        "name": "Horas",
+        "props": [],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 130,
+        "y": 820,
+        "wires": [
+            [
+                "abec8a7fdb85b239",
+                "e693be3c768b5123",
+                "9c4fa2ebf51b4935",
+                "ae1cc0d37c8e143a"
+            ]
+        ]
+    },
+    {
+        "id": "f3f68c0115deb3a8",
+        "type": "sqlite",
+        "z": "6b9eda19d7fd75cd",
+        "mydb": "c88f4e9f19d39aa7",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "hydro-db",
+        "x": 800,
+        "y": 820,
+        "wires": [
+            [
+                "3e51419231da3525"
+            ]
+        ]
+    },
+    {
+        "id": "3e51419231da3525",
+        "type": "debug",
+        "z": "6b9eda19d7fd75cd",
+        "name": "debug 10",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 960,
+        "y": 820,
+        "wires": []
+    },
+    {
+        "id": "0212d1aa55668add",
+        "type": "inject",
+        "z": "6b9eda19d7fd75cd",
+        "name": "Minutos",
+        "props": [],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 150,
+        "y": 1140,
+        "wires": [
+            [
+                "09e869d86e599ecf",
+                "9efe5e3b84319968",
+                "e58864f024c6b5cc",
+                "46892be85b7201cc"
+            ]
+        ]
+    },
+    {
+        "id": "cd8c71d9619c170f",
+        "type": "sqlite",
+        "z": "6b9eda19d7fd75cd",
+        "mydb": "c88f4e9f19d39aa7",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "hydro-db",
+        "x": 800,
+        "y": 1120,
+        "wires": [
+            [
+                "cfaa51184c43c4ae"
+            ]
+        ]
+    },
+    {
+        "id": "cfaa51184c43c4ae",
+        "type": "debug",
+        "z": "6b9eda19d7fd75cd",
+        "name": "debug 11",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 960,
+        "y": 1120,
+        "wires": []
+    },
+    {
         "id": "e7e0bde41244d3db",
         "type": "sqlite",
         "z": "436ade1fc82c1784",
